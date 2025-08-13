@@ -1,0 +1,91 @@
+<div class="product-highlight-video relative h-96 overflow-hidden flex items-center justify-center">
+  {% if section.settings.video_url != blank %}
+    <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
+      <source src="{{ section.settings.video_url }}" type="video/mp4">
+    </video>
+  {% elsif section.settings.video_file != blank %}
+    {{ section.settings.video_file | video_tag: 
+       autoplay: true, 
+       loop: true, 
+       muted: true, 
+       controls: false,
+       class: "absolute top-0 left-0 w-full h-full object-cover z-0" }}
+  {% else %}
+    <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
+      <source src="{{ 'synthify-goods-featured-product.mp4' | file_url }}" type="video/mp4">
+    </video>
+  {% endif %}
+  
+  <div class="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
+  
+  <div class="relative z-20 text-center text-white px-4">
+    {% if section.settings.show_badge %}
+      <div class="product-highlight-badge mb-4">
+        {{ section.settings.badge_text | default: 'Featured Product' }}
+      </div>
+    {% endif %}
+    
+    <h1 class="text-4xl md:text-6xl font-black mb-4">
+      {{ section.settings.title | default: product.title }}
+    </h1>
+    
+    {% if section.settings.subtitle != blank %}
+      <p class="text-lg md:text-xl max-w-2xl mx-auto">
+        {{ section.settings.subtitle }}
+      </p>
+    {% elsif product.description != blank %}
+      <p class="text-lg md:text-xl max-w-2xl mx-auto">
+        {{ product.description | strip_html | truncate: 150 }}
+      </p>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Highlight Video",
+  "settings": [
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Video URL",
+      "info": "External video URL (MP4 format recommended). Overrides Video File."
+    },
+    {
+      "type": "video",
+      "id": "video_file",
+      "label": "Video File",
+      "info": "Upload a video file (used if no URL is provided and overrides default)."
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Custom Title",
+      "info": "Leave blank to use product title"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "info": "Leave blank to use product description excerpt"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show Badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "Featured Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Highlight Video"
+    }
+  ]
+}
+{% endschema %}
