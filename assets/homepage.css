@@ -42,8 +42,8 @@
 }
 
 .featured-grid-item.animated {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .featured-grid-item:hover {
@@ -123,8 +123,9 @@
 .regular-item {
   grid-column: span 4;
 }
+
 .regular-item .featured-grid-item-media {
-    height: 200px;
+  height: 200px;
 }
 
 /* Featured Item Badge */
@@ -143,8 +144,14 @@
 }
 
 @keyframes pulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7); }
-    50% { transform: scale(1.05); box-shadow: 0 0 10px 5px rgba(0, 255, 255, 0); }
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px 5px rgba(0, 255, 255, 0);
+  }
 }
 
 /* Responsive adjustments */
@@ -152,38 +159,61 @@
   .featured-item {
     grid-column: span 12;
   }
-  
+
   .regular-item {
     grid-column: span 6;
   }
+
   .featured-item .featured-grid-item-media {
     height: 350px;
   }
 }
 
 @media (max-width: 768px) {
-    .featured-grid {
-      gap: 1.5rem;
-    }
-  
-    .featured-item {
-      grid-column: span 12;
-      grid-row: span 1;
-    }
-  
-    .regular-item {
-      grid-column: span 12;
-    }
-    
-    .featured-item .featured-grid-item-media {
-      height: 300px;
-    }
-    .regular-item .featured-grid-item-media {
-        height: 220px;
-    }
-    
-    /* Smaller hero text on mobile */
-    h1 {
-      font-size: 3rem !important;
-    }
+  .featured-grid {
+    gap: 1.5rem;
+  }
+
+  .featured-item {
+    grid-column: span 12;
+    grid-row: span 1;
+  }
+
+  .regular-item {
+    grid-column: span 12;
+  }
+
+  .featured-item .featured-grid-item-media {
+    height: 300px;
+  }
+
+  .regular-item .featured-grid-item-media {
+    height: 220px;
+  }
+
+  /* Smaller hero text on mobile */
+  h1 {
+    font-size: 3rem !important;
+  }
+}
+
+/* =========================== */
+/* Dropdown Select Styling     */
+/* =========================== */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2rem;
+  padding-left: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  cursor: pointer;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.375rem;
+  font-size: 14px;
 }
