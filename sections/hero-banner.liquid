@@ -2,14 +2,17 @@
 
 <!-- Hero Banner Section -->
 <section class="relative h-screen overflow-hidden flex items-center justify-center">
+
   {% if section.settings.video_filename != blank %}
     <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
       <source src="{{ section.settings.video_filename | asset_url }}" type="video/mp4">
     </video>
   {% endif %}
-  
+
+  <!-- Dark overlay -->
   <div class="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
-  
+
+  <!-- Hero Content -->
   <div class="relative z-20 text-center text-white px-4">
     <h1 class="text-6xl md:text-8xl font-black mb-4 text-shadow-lg">
       {{ section.settings.heading | default: 'Beyond Ordinary.' }}
@@ -17,13 +20,14 @@
     <p class="text-xl md:text-2xl mb-8 text-shadow">
       {{ section.settings.subheading | default: 'Viral gadgets. Future-proof design.' }}
     </p>
-    
+
     <div class="space-y-4">
       <a href="{{ section.settings.button_url | default: collections.all.url }}" class="cta-button">
         {{ section.settings.button_text | default: 'SHOP THE FUTURE' }}
       </a>
     </div>
   </div>
+
 </section>
 
 {% schema %}
@@ -68,4 +72,3 @@
   ]
 }
 {% endschema %}
-
