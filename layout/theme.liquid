@@ -1,59 +1,81 @@
 <!DOCTYPE html>
 <html lang="{{ request.locale.iso_code }}">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>{{ page_title }}{% if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags.join(', ') }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
-    <meta name="theme-color" content="#0A0A0A">
-    <link rel="canonical" href="{{ canonical_url }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com" defer></script>
-    
-    {{ content_for_header }}
-    
-    {{ 'global.css' | asset_url | stylesheet_tag }}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>
+    {{ page_title }}
+    {% if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags.join(', ') }}{% endif %}
+    {% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}
+    {% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  <meta name="theme-color" content="#0A0A0A">
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com" defer></script>
+
+  {{ content_for_header }}
+
+  {{ 'global.css' | asset_url | stylesheet_tag }}
 </head>
 
 <body class="bg-primary text-secondary min-h-screen">
 
-    <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-90 backdrop-blur-md border-b border-white border-opacity-10">
-        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-            <!-- Logo -->
-            <div class="flex items-center">
-                <a href="{{ routes.root_url }}" class="flex items-center space-x-3">
-                    <img 
-                      src="{{ 'synthify-goods-logo.png' | file_url }}" 
-                      alt="Synthify Goods" 
-                      width="100" 
-                      height="40" 
-                      class="h-10 w-auto">
-                </a>
-            </div>
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-90 backdrop-blur-md border-b border-white border-opacity-10">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <div class="flex items-center">
+        <a href="{{ routes.root_url }}" class="flex items-center space-x-3">
+          {% if settings.logo != blank %}
+            <img 
+              src="{{ settings.logo | image_url: width: settings.logo_width | default: 150 }}"
+              alt="{{ shop.name | escape }}"
+              width="{{ settings.logo_width | default: 150 }}"
+              class="h-10 w-auto max-w-[150px]"
+              loading="lazy"
+            />
+          {% else %}
+            <img 
+              src="{{ 'synthify-goods-logo.png' | asset_url }}" 
+              alt="{{ shop.name | escape }}" 
+              width="150" 
+              height="auto" 
+              class="h-10 w-auto max-w-[150px]"
+              loading="lazy"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+            />
+            <span class="text-2xl font-bold text-white hidden">{{ shop.name }}</span>
+          {% endif %}
+        </a>
+      </div>
 
-            <!-- Search -->
-            {% render 'animated-search' %}
-        </div>
-    </header>
+      <!-- Search -->
+      {% render 'animated-search' %}
+    </div>
+  </header>
 
-    <!-- Main Content -->
-    <main class="pt-20">
-        {{ content_for_layout }}
-    </main>
-    
-    <!-- Footer -->
-    <footer class="bg-black bg-opacity-50 backdrop-blur-md border-t border-white border-opacity-10 py-8 mt-16">
-        <div class="container mx-auto px-4 text-center">
-            <div class="text-secondary">
-                <p>&copy; {{ 'now' | date: "%Y" }} Synthify Goods. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer>
+  <!-- Main Content -->
+  <main class="pt-20">
+    {{ content_for_layout }}
+  </main>
 
-    {{ content_for_footer }}
+  <!-- Footer -->
+  <footer class="bg-black bg-opacity-50 backdrop-blur-md border-t border-white border-opacity-10 py-8 mt-16">
+    <div class="container mx-auto px-4 text-center">
+      <div class="text-secondary">
+        <p>&copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  {{ content_for_footer }}
 </body>
 </html>
