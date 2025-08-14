@@ -56,9 +56,9 @@
           {% endif %}
         </a>
       </div>
-<!-- Logo -->
+     <!-- Logo -->
      <div class="flex items-center">
-  <a href="{{ routes.root_url }}" class="flex items-center space-x-3">
+        <a href="{{ routes.root_url }}" class="flex items-center space-x-3">
     {% if settings.logo != blank %}
       <img 
         src="{{ settings.logo | image_url: width: settings.logo_width | default: 150 }}"
