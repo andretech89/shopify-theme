@@ -62,10 +62,10 @@
           {% if settings.logo != blank %}
            <img 
              src="{{ settings.logo | image_url: width: settings.logo_width | default: 150 }}"
-        alt="{{ shop.name | escape }}"
-        width="{{ settings.logo_width | default: 150 }}"
-        height="40"
-        class="h-10 w-auto max-w-[150px]"
+             alt="{{ shop.name | escape }}"
+             width="{{ settings.logo_width | default: 150 }}"
+             height="40"
+             class="h-10 w-auto max-w-[150px]"
         loading="lazy"
       />
     {% else %}
