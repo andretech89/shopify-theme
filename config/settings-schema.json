@@ -23,7 +23,7 @@
         "type": "range",
         "id": "logo_width",
         "label": "Logo Width"
-        "min": 50,
+        ,"min": 50,
         "max": 300,
         "step": 10,
         "unit": "px",
