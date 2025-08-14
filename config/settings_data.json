@@ -1,0 +1,71 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "primary_color": "#0A0A0A",
+    "secondary_color": "#F5F5F5",
+    "accent_color": "#00FFFF",
+    "body_font": "Inter",
+    "heading_font": "Inter",
+    "hero_title": "Beyond Ordinary.",
+    "hero_subtitle": "Viral gadgets. Future-proof design.",
+    "hero_button_text": "SHOP THE FUTURE",
+    "hero_button_link": "/collections/all",
+    "show_vendor": true,
+    "show_product_type": true,
+    "product_image_size": "medium",
+    "social_facebook_url": "",
+    "social_instagram_url": "",
+    "social_twitter_url": "",
+    "social_tiktok_url": "",
+    "sections": {
+      "hero-banner": {
+        "type": "hero-banner",
+        "settings": {
+          "heading": "Beyond Ordinary.",
+          "subheading": "Viral gadgets. Future-proof design.",
+          "button_text": "SHOP THE FUTURE",
+          "button_url": "",
+          "video_filename": "synthify-goods-homepage-banner.mp4"
+        }
+      },
+      "featured-products": {
+        "type": "featured-products",
+        "settings": {
+          "heading": "Featured Products",
+          "collection": "",
+          "products_count": 6,
+          "show_trending_video": true,
+          "trending_badge": "Now Trending",
+          "trending_title": "Discover the Unseen",
+          "trending_description": "Experience the future with our curated collection of innovative gadgets from tradelle.io.",
+          "trending_tag": "Innovation",
+          "featured_video_filename": "synthify-goods-featured-product.mp4"
+        }
+      },
+      "collections-grid": {
+        "type": "collections-grid",
+        "settings": {
+          "show_collections": true,
+          "heading": "Shop by Category",
+          "collections_count": 6
+        }
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "7924418359578431505": {
+        "type": "shopify://apps/seoant-ai-seo/blocks/seoant-core/8e57283b-dcb0-4f7b-a947-fb5c57a0d59d",
+        "disabled": false,
+        "settings": {}
+      }
+    }
+  }
+}
