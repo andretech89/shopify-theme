@@ -17,7 +17,7 @@
       {
         "type": "image_picker",
         "id": "logo",
-        "label": "Logo image"
+        "label": "Header Logo"
       },
       {
         "type": "range",
