@@ -20,7 +20,7 @@
         {% else %}
           {% comment %} Method 2: Try asset_url {% endcomment %}
           <img
-            src="{{ 'synthify-goods-logo' | asset_url }}"
+            src="{{ 'synthify-goods-logo.png' | asset_url }}"
             alt="{{ shop.name | escape }}"
             width="150"
             height="auto"
@@ -71,7 +71,7 @@
 <div style="background: red; color: white; padding: 10px; position: fixed; top: 80px; left: 10px; z-index: 9999; font-size: 12px;">
   <strong>Logo Debug Info:</strong><br>
   Settings logo: {{ settings.logo }}<br>
-  Asset URL: {{ 'synthify-goods-logo' | asset_url }}<br>
+  Asset URL: {{ 'synthify-goods-logo.png' | asset_url }}<br>
   File URL: {{ 'synthify-goods-logo.png' | file_url }}<br>
   Shop name: {{ shop.name }}
 </div>
