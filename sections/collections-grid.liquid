@@ -6,7 +6,7 @@
       {{ section.settings.heading | default: 'Shop by Category' }}
     </h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {% assign collections_count = section.settings.collections_count | default: 6 %}
+      {% assign collections_count = section.settings.collections_count | default: 9 %}
       {% assign collection_counter = 0 %}
       
       {% for collection in collections %}
@@ -68,7 +68,7 @@
       "min": 3,
       "max": 12,
       "step": 1,
-      "default": 6
+      "default": 9
     }
   ],
   "presets": [
