@@ -6,123 +6,89 @@
       {{ section.settings.heading | default: 'Shop by Category' }}
     </h2>
     
-    <!-- Define the order of collections we want to display -->
-    {% assign first_row_collections = 'car-accessories,desktop-accessories,home-garden' | split: ',' %}
-    {% assign second_row_collections = 'pet-supplies,sporting-goods,video-games' | split: ',' %}
+    <!-- Get first 6 collections (excluding 'all') -->
+    {% assign filtered_collections = collections | where: 'handle', '!= all' %}
+    {% assign collections_to_show = filtered_collections | slice: 0, 6 %}
     
-    <!-- First Row: Car Accessories, Desktop Accessories, Home & Garden -->
+    <!-- First Row: First 3 collections -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-      {% for handle in first_row_collections %}
-        {% assign found_collection = false %}
-        {% for collection in collections %}
-          {% unless collection.handle == 'all' %}
-            {% assign clean_handle = collection.handle | downcase %}
-            {% assign target_handle = handle | downcase %}
-            {% if clean_handle == target_handle or collection.title contains 'Car' or collection.title contains 'Desktop' or collection.title contains 'Home' %}
-              {% unless found_collection %}
-                <a href="{{ collection.url }}" class="group">
-                  <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
-                    {% if collection.featured_image %}
-                      <img src="{{ collection.featured_image | image_url: width: 400 }}" 
-                           alt="{{ collection.title }}" 
-                           class="w-full h-48 object-cover"
-                           width="400" height="192">
-                    {% else %}
-                      <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-                        <i class="fas fa-th-large text-4xl text-gray-500"></i>
-                      </div>
-                    {% endif %}
-                    <div class="p-6">
-                      <h3 class="text-xl font-bold text-white mb-2">{{ collection.title }}</h3>
-                      <p class="text-gray-400">{{ collection.description | default: 'Discover amazing products in this collection' | truncate: 100 }}</p>
-                      <div class="mt-4">
-                        <span class="text-accent">{{ collection.products_count }} products →</span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                {% assign found_collection = true %}
-              {% endunless %}
-            {% endif %}
-          {% endunless %}
-        {% endfor %}
-        
-        <!-- If collection not found, show placeholder -->
-        {% unless found_collection %}
+      {% for i in (0..2) %}
+        {% assign collection = collections_to_show[i] %}
+        {% if collection %}
+          <a href="{{ collection.url }}" class="group">
+            <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+              {% if collection.featured_image %}
+                <img src="{{ collection.featured_image | image_url: width: 400 }}" 
+                     alt="{{ collection.title }}" 
+                     class="w-full h-48 object-cover"
+                     width="400" height="192">
+              {% else %}
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                  <i class="fas fa-th-large text-4xl text-gray-500"></i>
+                </div>
+              {% endif %}
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-white mb-2">{{ collection.title }}</h3>
+                <p class="text-gray-400">{{ collection.description | default: 'Discover amazing products in this collection' | truncate: 100 }}</p>
+                <div class="mt-4">
+                  <span class="text-accent">{{ collection.products_count }} products →</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        {% else %}
+          <!-- Placeholder if no collection available -->
           <div class="bg-gray-800 rounded-lg overflow-hidden">
             <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
               <i class="fas fa-th-large text-4xl text-gray-500"></i>
             </div>
             <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">
-                {% case handle %}
-                  {% when 'car-accessories' %}Car Accessories
-                  {% when 'desktop-accessories' %}Desktop Accessories  
-                  {% when 'home-garden' %}Home & Garden
-                {% endcase %}
-              </h3>
-              <p class="text-gray-400">Collection coming soon</p>
+              <h3 class="text-xl font-bold text-white mb-2">Coming Soon</h3>
+              <p class="text-gray-400">New collection coming soon</p>
             </div>
           </div>
-        {% endunless %}
+        {% endif %}
       {% endfor %}
     </div>
 
-    <!-- Second Row: Pet Supplies, Sporting Goods, Video Games -->
+    <!-- Second Row: Next 3 collections -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      {% for handle in second_row_collections %}
-        {% assign found_collection = false %}
-        {% for collection in collections %}
-          {% unless collection.handle == 'all' %}
-            {% assign clean_handle = collection.handle | downcase %}
-            {% assign target_handle = handle | downcase %}
-            {% if clean_handle == target_handle or collection.title contains 'Pet' or collection.title contains 'Sport' or collection.title contains 'Video' or collection.title contains 'Game' %}
-              {% unless found_collection %}
-                <a href="{{ collection.url }}" class="group">
-                  <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
-                    {% if collection.featured_image %}
-                      <img src="{{ collection.featured_image | image_url: width: 400 }}" 
-                           alt="{{ collection.title }}" 
-                           class="w-full h-48 object-cover"
-                           width="400" height="192">
-                    {% else %}
-                      <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-                        <i class="fas fa-th-large text-4xl text-gray-500"></i>
-                      </div>
-                    {% endif %}
-                    <div class="p-6">
-                      <h3 class="text-xl font-bold text-white mb-2">{{ collection.title }}</h3>
-                      <p class="text-gray-400">{{ collection.description | default: 'Discover amazing products in this collection' | truncate: 100 }}</p>
-                      <div class="mt-4">
-                        <span class="text-accent">{{ collection.products_count }} products →</span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                {% assign found_collection = true %}
-              {% endunless %}
-            {% endif %}
-          {% endunless %}
-        {% endfor %}
-        
-        <!-- If collection not found, show placeholder -->
-        {% unless found_collection %}
+      {% for i in (3..5) %}
+        {% assign collection = collections_to_show[i] %}
+        {% if collection %}
+          <a href="{{ collection.url }}" class="group">
+            <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+              {% if collection.featured_image %}
+                <img src="{{ collection.featured_image | image_url: width: 400 }}" 
+                     alt="{{ collection.title }}" 
+                     class="w-full h-48 object-cover"
+                     width="400" height="192">
+              {% else %}
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                  <i class="fas fa-th-large text-4xl text-gray-500"></i>
+                </div>
+              {% endif %}
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-white mb-2">{{ collection.title }}</h3>
+                <p class="text-gray-400">{{ collection.description | default: 'Discover amazing products in this collection' | truncate: 100 }}</p>
+                <div class="mt-4">
+                  <span class="text-accent">{{ collection.products_count }} products →</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        {% else %}
+          <!-- Placeholder if no collection available -->
           <div class="bg-gray-800 rounded-lg overflow-hidden">
             <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
               <i class="fas fa-th-large text-4xl text-gray-500"></i>
             </div>
             <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">
-                {% case handle %}
-                  {% when 'pet-supplies' %}Pet Supplies
-                  {% when 'sporting-goods' %}Sporting Goods
-                  {% when 'video-games' %}Video Games
-                {% endcase %}
-              </h3>
-              <p class="text-gray-400">Collection coming soon</p>
+              <h3 class="text-xl font-bold text-white mb-2">Coming Soon</h3>
+              <p class="text-gray-400">New collection coming soon</p>
             </div>
           </div>
-        {% endunless %}
+        {% endif %}
       {% endfor %}
     </div>
   </div>
