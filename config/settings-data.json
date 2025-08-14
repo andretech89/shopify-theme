@@ -3,18 +3,8 @@
     "primary_color": "#0A0A0A",
     "secondary_color": "#F5F5F5",
     "accent_color": "#00FFFF",
-    "body_font": "assistant_n4",
-    "heading_font": "assistant_n4",
-    "hero_title": "Beyond Ordinary.",
-    "hero_subtitle": "Viral gadgets. Future-proof design.",
-    "hero_button_text": "SHOP THE FUTURE",
-    "hero_button_link": "/collections/all",
-    "show_vendor": true,
-    "show_product_type": true,
-    "product_image_size": "medium",
-    "social_facebook_url": "",
-    "social_instagram_url": "",
-    "social_twitter_url": "",
-    "social_tiktok_url": ""
+    "logo_width": 150,
+    "animations_enabled": true,
+    "cart_type": "drawer"
   }
 }
