@@ -1,0 +1,202 @@
+<header class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-90 backdrop-blur-md border-b border-white border-opacity-10">
+  <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <!-- Logo -->
+    <div class="flex items-center">
+      <a href="{{ routes.root_url }}" class="flex items-center space-x-3">
+        {% if settings.logo != blank %}
+          <img
+            src="{{ settings.logo | image_url: width: settings.logo_width }}"
+            alt="{{ shop.name | escape }}"
+            width="{{ settings.logo_width }}"
+            height="auto"
+            class="h-10 w-auto max-w-[{{ settings.logo_width }}px]"
+            loading="lazy"
+          />
+        {% else %}
+          <!-- Fallback text logo if no image is set -->
+          <span class="text-2xl font-bold text-white">{{ shop.name }}</span>
+        {% endif %}
+      </a>
+    </div>
+
+    <!-- Navigation Menu (Desktop) -->
+    {% if settings.header_layout != 'minimal' %}
+      <nav class="hidden lg:flex items-center space-x-8">
+        {% for link in linklists.main-menu.links %}
+          {% if link.links != blank %}
+            <!-- Dropdown menu -->
+            <div class="relative group">
+              <button class="text-white hover:text-accent transition-colors duration-300 flex items-center space-x-1">
+                <span>{{ link.title }}</span>
+                <svg class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <div class="absolute top-full left-0 mt-2 w-48 bg-gray-900 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                {% for sublink in link.links %}
+                  <a href="{{ sublink.url }}" class="block px-4 py-3 text-white hover:text-accent hover:bg-gray-800 transition-colors duration-300 first:rounded-t-lg last:rounded-b-lg">
+                    {{ sublink.title }}
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+          {% else %}
+            <!-- Regular menu item -->
+            <a href="{{ link.url }}" class="text-white hover:text-accent transition-colors duration-300 {% if link.active %}text-accent{% endif %}">
+              {{ link.title }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </nav>
+    {% endif %}
+
+    <!-- Right Side Icons -->
+    <div class="flex items-center space-x-4">
+      <!-- Search Icon (if enabled) -->
+      {% if settings.show_search_icon %}
+        {% render 'animated-search' %}
+      {% endif %}
+
+      <!-- Account Icon (if enabled) -->
+      {% if settings.show_account_icon %}
+        <a href="{{ routes.account_url }}" class="text-white hover:text-accent transition-colors duration-300 p-2">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+          <span class="sr-only">Account</span>
+        </a>
+      {% endif %}
+
+      <!-- Cart Icon (if enabled) -->
+      {% if settings.show_cart_icon %}
+        <button id="cart-icon" class="text-white hover:text-accent transition-colors duration-300 p-2 relative">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 2.5M7 13l2.5 2.5m6-2.5h3"></path>
+          </svg>
+          {% if cart.item_count > 0 %}
+            <span class="absolute -top-1 -right-1 bg-accent text-black text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+              {{ cart.item_count }}
+            </span>
+          {% endif %}
+          <span class="sr-only">Cart ({{ cart.item_count }} items)</span>
+        </button>
+      {% endif %}
+
+      <!-- Mobile Menu Button -->
+      {% if settings.mobile_menu_enabled %}
+        <button id="mobile-menu-button" class="lg:hidden text-white hover:text-accent transition-colors duration-300 p-2">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <span class="sr-only">Menu</span>
+        </button>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  {% if settings.mobile_menu_enabled %}
+    <div id="mobile-menu" class="lg:hidden fixed inset-0 top-[73px] bg-black bg-opacity-95 backdrop-blur-md transform -translate-y-full transition-transform duration-300 z-40">
+      <nav class="container mx-auto px-4 py-6">
+        <div class="space-y-4">
+          {% for link in linklists.main-menu.links %}
+            {% if link.links != blank %}
+              <!-- Mobile dropdown -->
+              <div class="space-y-2">
+                <button class="mobile-dropdown-toggle w-full text-left text-white hover:text-accent transition-colors duration-300 flex items-center justify-between py-2">
+                  <span>{{ link.title }}</span>
+                  <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+                <div class="mobile-dropdown-menu pl-4 space-y-2 max-h-0 overflow-hidden transition-all duration-300">
+                  {% for sublink in link.links %}
+                    <a href="{{ sublink.url }}" class="block text-gray-300 hover:text-white transition-colors duration-300 py-1">
+                      {{ sublink.title }}
+                    </a>
+                  {% endfor %}
+                </div>
+              </div>
+            {% else %}
+              <a href="{{ link.url }}" class="block text-white hover:text-accent transition-colors duration-300 py-2 {% if link.active %}text-accent{% endif %}">
+                {{ link.title }}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <!-- Mobile Account/Search Links -->
+        <div class="mt-8 pt-6 border-t border-gray-700 space-y-4">
+          {% if settings.show_search_icon %}
+            <a href="{{ routes.search_url }}" class="block text-white hover:text-accent transition-colors duration-300 py-2">
+              Search
+            </a>
+          {% endif %}
+          {% if settings.show_account_icon %}
+            <a href="{{ routes.account_url }}" class="block text-white hover:text-accent transition-colors duration-300 py-2">
+              My Account
+            </a>
+          {% endif %}
+        </div>
+      </nav>
+    </div>
+  {% endif %}
+</header>
+
+<!-- Required CSS for animations -->
+<style>
+  .mobile-dropdown-toggle.active svg {
+    transform: rotate(180deg);
+  }
+  
+  .mobile-dropdown-menu.active {
+    max-height: 200px;
+  }
+  
+  #mobile-menu.active {
+    transform: translateY(0);
+  }
+</style>
+
+<!-- Required JavaScript for mobile menu -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener('click', function() {
+        mobileMenu.classList.toggle('active');
+        document.body.classList.toggle('overflow-hidden');
+      });
+      
+      // Close menu when clicking outside
+      mobileMenu.addEventListener('click', function(e) {
+        if (e.target === mobileMenu) {
+          mobileMenu.classList.remove('active');
+          document.body.classList.remove('overflow-hidden');
+        }
+      });
+    }
+    
+    // Mobile dropdown toggles
+    const dropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+    dropdownToggles.forEach(toggle => {
+      toggle.addEventListener('click', function() {
+        const menu = this.nextElementSibling;
+        this.classList.toggle('active');
+        menu.classList.toggle('active');
+      });
+    });
+    
+    // Cart icon functionality (if you have cart drawer)
+    const cartIcon = document.getElementById('cart-icon');
+    if (cartIcon) {
+      cartIcon.addEventListener('click', function() {
+        // Add your cart drawer logic here
+        console.log('Cart clicked');
+      });
+    }
+  });
+</script>
