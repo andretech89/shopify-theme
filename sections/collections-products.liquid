@@ -1,0 +1,213 @@
+{{ 'component-collection.css' | asset_url | stylesheet_tag }}
+
+<div class="page-width section-{{ section.id }}-padding">
+  <div class="collection-hero">
+    <h1 class="collection-hero__title">
+      {% if section.settings.collection != blank %}
+        {% assign collection = collections[section.settings.collection] %}
+        <span class="visually-hidden">Collection: </span>
+        {{- collection.title | escape -}}
+      {% else %}
+        Featured Collection
+      {% endif %}
+    </h1>
+
+    {%- if collection.description != blank -%}
+      <div class="collection-hero__description rte">
+        {{- collection.description -}}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<div class="section-{{ section.id }}-padding">
+  <div class="page-width">
+    {% if section.settings.collection != blank %}
+      {%- paginate collection.products by section.settings.products_per_page -%}
+        {%- if collection.products.size == 0 -%}
+          <div class="collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
+            <div class="loading-overlay gradient"></div>
+            <div class="title-wrapper center">
+              <h2 class="title title--primary">
+                This collection is empty<br>
+                <a href="{{ collection.url }}" class="underlined-link link">Continue browsing</a>
+              </h2>
+            </div>
+          </div>
+        {%- else -%}
+          <div class="collection">
+            <div class="loading-overlay gradient"></div>
+
+            <ul id="product-grid" data-id="{{ section.id }}" class="grid product-grid grid--2-col-tablet-down grid--{{ section.settings.products_per_row }}-col-desktop grid--2-col-mobile">
+              {%- for product in collection.products -%}
+                {% assign lazy_load = false %}
+                {%- if forloop.index > 2 -%}
+                  {%- assign lazy_load = true -%}
+                {%- endif -%}
+                <li class="grid__item">
+                  <div class="card-wrapper underline-links-hover">
+                    <div class="card card--standard card--media">
+                      <div class="card__inner">
+                        <div class="card__media">
+                          <div class="media media--transparent media--hover-effect">
+                            <a href="{{ product.url }}" class="media__link">
+                              {% if product.featured_media %}
+                                <img
+                                  srcset="{%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+                                          {%- if product.featured_media.width >= 360 -%}{{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+                                          {%- if product.featured_media.width >= 533 -%}{{ product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+                                          {%- if product.featured_media.width >= 720 -%}{{ product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
+                                          {{ product.featured_media | image_url }} {{ product.featured_media.width }}w"
+                                  src="{{ product.featured_media | image_url: width: 533 }}"
+                                  sizes="(min-width: 1200px) 267px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                                  alt="{{ product.featured_media.alt | escape }}"
+                                  class="motion-reduce"
+                                  {% unless lazy_load == false %}loading="lazy"{% endunless %}
+                                  width="{{ product.featured_media.width }}"
+                                  height="{{ product.featured_media.height }}"
+                                >
+                              {% else %}
+                                <div class="card__media-placeholder">
+                                  {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                                </div>
+                              {% endif %}
+                            </a>
+                          </div>
+                        </div>
+                        <div class="card__content">
+                          <div class="card__information">
+                            <h3 class="card__heading">
+                              <a href="{{ product.url }}" class="full-unstyled-link">
+                                {{ product.title | escape }}
+                              </a>
+                            </h3>
+                            <div class="price">
+                              {%- assign price = product.price | money -%}
+                              <div class="price__container">
+                                <div class="price__regular">
+                                  <span class="visually-hidden visually-hidden--inline">Regular price</span>
+                                  <span class="price-item price-item--regular">
+                                    {{ price }}
+                                  </span>
+                                </div>
+                                {%- if product.compare_at_price > product.price and product.available -%}
+                                  <div class="price__sale">
+                                    <span class="visually-hidden visually-hidden--inline">Regular price</span>
+                                    <span>
+                                      <s class="price-item price-item--regular">
+                                        {{ product.compare_at_price | money }}
+                                      </s>
+                                    </span>
+                                    <span class="visually-hidden visually-hidden--inline">Sale price</span>
+                                    <span class="price-item price-item--sale price-item--last">
+                                      {{ price }}
+                                    </span>
+                                  </div>
+                                {%- endif -%}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card__badge">
+                            {%- if product.available == false -%}
+                              <span class="badge badge--bottom-left">Sold out</span>
+                            {%- elsif product.compare_at_price > product.price and product.available -%}
+                              <span class="badge badge--bottom-left">Sale</span>
+                            {%- endif -%}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              {%- endfor -%}
+            </ul>
+
+            {%- if paginate.pages > 1 -%}
+              <nav class="pagination" role="navigation" aria-label="Pagination">
+                <ul class="pagination__list list-unstyled" role="list">
+                  {%- if paginate.previous -%}
+                    <li>
+                      <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev pagination__item-arrow link motion-reduce">
+                        ← Previous
+                      </a>
+                    </li>
+                  {%- endif -%}
+
+                  {%- for part in paginate.parts -%}
+                    {%- if part.is_link -%}
+                      <li>
+                        <a href="{{ part.url }}" class="pagination__item link">
+                          {{- part.title -}}
+                        </a>
+                      </li>
+                    {%- else -%}
+                      {%- if part.title == paginate.current_page -%}
+                        <li>
+                          <span class="pagination__item pagination__item--current" aria-current="page">
+                            {{- part.title -}}
+                          </span>
+                        </li>
+                      {%- else -%}
+                        <li>
+                          <span class="pagination__item">{{- part.title -}}</span>
+                        </li>
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+
+                  {%- if paginate.next -%}
+                    <li>
+                      <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next pagination__item-arrow link motion-reduce">
+                        Next →
+                      </a>
+                    </li>
+                  {%- endif -%}
+                </ul>
+              </nav>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endpaginate -%}
+    {% else %}
+      <div class="collection collection--empty">
+        <p>Please select a collection to display products.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Products",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 12,
+      "max": 48,
+      "step": 12,
+      "default": 24,
+      "label": "Products per page"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4,
+      "label": "Products per row (desktop)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Products"
+    }
+  ]
+}
+{% endschema %}
