@@ -1,0 +1,127 @@
+/* Totals Component Styles */
+.totals {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: rgba(var(--color-foreground), 0.02);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.totals__total {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+}
+
+.totals__total-value {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgb(var(--color-foreground));
+}
+
+.totals__subtotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.totals__subtotal-label {
+  font-weight: 400;
+  color: rgba(var(--color-foreground), 0.75);
+}
+
+.totals__subtotal-value {
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+}
+
+.totals__shipping {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.totals__shipping-label {
+  font-weight: 400;
+  color: rgba(var(--color-foreground), 0.75);
+}
+
+.totals__shipping-value {
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+}
+
+.totals__taxes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.totals__taxes-label {
+  font-weight: 400;
+  color: rgba(var(--color-foreground), 0.75);
+}
+
+.totals__taxes-value {
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+}
+
+.totals__discounts {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.totals__discounts-label {
+  font-weight: 400;
+  color: rgb(var(--color-base-accent-1));
+}
+
+.totals__discounts-value {
+  font-weight: 600;
+  color: rgb(var(--color-base-accent-1));
+}
+
+.tax-note {
+  margin-top: 1rem;
+  text-align: center;
+  color: rgba(var(--color-foreground), 0.75);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.tax-note a {
+  color: rgb(var(--color-foreground));
+  text-decoration: underline;
+}
+
+.tax-note a:hover {
+  text-decoration: none;
+}
+
+/* Responsive Design */
+@media screen and (min-width: 750px) {
+  .totals {
+    padding: 1.5rem;
+    min-width: 300px;
+  }
+  
+  .totals__total-value {
+    font-size: 1.75rem;
+  }
+  
+  .tax-note {
+    text-align: left;
+    margin-top: 1.5rem;
+  }
+}

@@ -1,0 +1,26 @@
+{% comment %}
+  Renders product variant options
+
+  Accepts:
+  - product: {Object} product object.
+  - option: {Object} current product option.
+  - block: {Object} passing the block information.
+
+  Usage:
+  {% render 'product-variant-options', product: product, option: option, block: block %}
+{% endcomment %}
+
+{%- for value in option.values -%}
+  <input
+    type="radio"
+    id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+    name="{{ option.name }}"
+    value="{{ value | escape }}"
+    form="{{ product_form_id }}"
+    {% if option.selected_value == value %}checked{% endif %}
+    class="product-form__input--radio"
+  >
+  <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="product-form__option-label">
+    {{ value }}
+  </label>
+{%- endfor -%}

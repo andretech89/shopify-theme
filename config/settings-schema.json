@@ -4,8 +4,8 @@
     "theme_name": "Synthify Goods",
     "theme_version": "1.0.0",
     "theme_author": "Custom",
-    "theme_documentation_url": "https://github.com/your-username/synthify-goods-theme",
-    "theme_support_url": "https://github.com/your-username/synthify-goods-theme/issues"
+    "theme_documentation_url": "https://github.com/andretech89/synthify-goods-theme",
+    "theme_support_url": "https://github.com/andretech89/synthify-goods-theme/issues"
   },
   {
     "name": "Colors",
@@ -48,13 +48,13 @@
         "type": "font_picker",
         "id": "body_font",
         "label": "Body Font",
-        "default": "Inter"
+        "default": "montserrat_n4"
       },
       {
         "type": "font_picker",
         "id": "heading_font",
         "label": "Heading Font",
-        "default": "Inter"
+        "default": "montserrat_n4"
       }
     ]
   },

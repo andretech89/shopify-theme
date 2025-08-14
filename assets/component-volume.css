@@ -1,0 +1,50 @@
+/* Volume Pricing Component Styles */
+.card__information-volume-pricing-note {
+  margin-top: 0.5rem;
+}
+
+.card__information-volume-pricing-note .caption {
+  font-size: 0.75rem;
+  color: rgba(var(--color-foreground), 0.6);
+  font-style: italic;
+}
+
+.volume-pricing {
+  border: 1px solid rgba(var(--color-foreground), 0.1);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.volume-pricing__title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.volume-pricing__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.volume-pricing__table th,
+.volume-pricing__table td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.volume-pricing__table th {
+  font-weight: 600;
+  color: rgba(var(--color-foreground), 0.8);
+}
+
+.volume-pricing__table td {
+  color: rgba(var(--color-foreground), 0.7);
+}
+
+.volume-pricing__table tr:last-child th,
+.volume-pricing__table tr:last-child td {
+  border-bottom: none;
+}

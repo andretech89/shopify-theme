@@ -1,0 +1,67 @@
+{{ 'component-collection.css' | asset_url | stylesheet_tag }}
+
+<div class="page-width section-{{ section.id }}-padding">
+  <div class="collection-hero">
+    <h1 class="collection-hero__title">
+      <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+      {{- collection.title | escape -}}
+    </h1>
+
+    {%- if collection.description != blank -%}
+      <div class="collection-hero__description rte">
+        {{- collection.description -}}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<div class="section-{{ section.id }}-padding">
+  <div class="page-width">
+    {%- paginate collection.products by 24 -%}
+      {%- if collection.products.size == 0 -%}
+        <div class="collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
+          <div class="loading-overlay gradient"></div>
+          <div class="title-wrapper center">
+            <h2 class="title title--primary">
+              {{ 'sections.collection_template.empty' | t }}<br>
+              {{ 'sections.collection_template.use_fewer_filters_html' | t: link: collection.url, class: "underlined-link link" }}
+            </h2>
+          </div>
+        </div>
+      {%- else -%}
+        <div class="collection">
+          <div class="loading-overlay gradient"></div>
+
+          <ul id="product-grid" data-id="{{ section.id }}" class="
+            grid product-grid grid--2-col-tablet-down
+            grid--{{ settings.products_per_row_desktop }}-col-desktop
+            grid--{{ settings.products_per_row_mobile }}-col-mobile">
+            {%- for product in collection.products -%}
+              {% assign lazy_load = false %}
+              {%- if forloop.index > 2 -%}
+                {%- assign lazy_load = true -%}
+              {%- endif -%}
+              <li class="grid__item">
+                {% render 'card-product',
+                  card_product: product,
+                  media_aspect_ratio: settings.image_ratio,
+                  image_shape: settings.image_shape,
+                  show_secondary_image: settings.show_secondary_image,
+                  show_vendor: settings.show_vendor,
+                  show_rating: settings.show_rating,
+                  lazy_load: lazy_load,
+                  show_quick_add: settings.enable_quick_add,
+                  section_id: section.id
+                %}
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          {%- if paginate.pages > 1 -%}
+            {% render 'pagination', paginate: paginate, anchor: '' %}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</div>

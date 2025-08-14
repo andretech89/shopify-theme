@@ -1,0 +1,198 @@
+{{ 'section-product.css' | asset_url | stylesheet_tag }}
+
+<section id="ProductSection-{{ section.id }}" class="page-width section-{{ section.id }}-padding">
+  <div class="product product--{{ settings.product_image_size }} product--{{ product.media.size }}-media grid grid--1-col grid--2-col-tablet">
+    <div class="grid__item product__media">
+      <div class="product__media-wrapper">
+        {% if product.featured_media %}
+          <div class="product__media media">
+            <img
+              src="{{ product.featured_media | image_url: width: 600 }}"
+              alt="{{ product.featured_media.alt | escape }}"
+              width="{{ product.featured_media.width }}"
+              height="{{ product.featured_media.height }}"
+              class="product__featured-image">
+          </div>
+        {% endif %}
+        
+        {% if product.media.size > 1 %}
+          <div class="product__media-list">
+            {% for media in product.media limit: 12 %}
+              <div class="product__media-item">
+                {% case media.media_type %}
+                  {% when 'image' %}
+                    <img
+                      src="{{ media | image_url: width: 100 }}"
+                      alt="{{ media.alt | escape }}"
+                      width="100"
+                      height="100"
+                      class="product__media-thumbnail">
+                  {% when 'video' %}
+                    <video controls width="100" height="100">
+                      <source src="{{ media.sources[0].url }}" type="{{ media.sources[0].mime_type }}">
+                    </video>
+                {% endcase %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    
+    <div class="grid__item product__info">
+      <div class="product__info-wrapper">
+        <h1 class="product__title h2">{{ product.title | escape }}</h1>
+        
+        {% if settings.show_vendor and product.vendor != blank %}
+          <p class="product__vendor">{{ product.vendor | escape }}</p>
+        {% endif %}
+        
+        {% if settings.show_product_type and product.type != blank %}
+          <p class="product__type">{{ product.type | escape }}</p>
+        {% endif %}
+        
+        <div class="product__price">
+          <div class="price">
+            {% if product.compare_at_price > product.price %}
+              <span class="price__regular">
+                <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+                {{ product.compare_at_price | money }}
+              </span>
+              <span class="price__sale">
+                <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+                {{ product.price | money }}
+              </span>
+            {% else %}
+              <span class="price__regular">
+                <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+                {{ product.price | money }}
+              </span>
+            {% endif %}
+          </div>
+        </div>
+        
+        {% if product.description != blank %}
+          <div class="product__description rte">
+            {{ product.description }}
+          </div>
+        {% endif %}
+        
+        <product-form class="product-form">
+          {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
+          
+          {% form 'product', product, id: product_form_installment_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            
+            {% unless product.has_only_default_variant %}
+              <variant-radios class="no-js-hidden" data-section="{{ section.id }}" data-url="{{ product.url }}">
+                {% for option in product.options_with_values %}
+                  <fieldset class="js product-form__input">
+                    <legend class="form__label">{{ option.name }}</legend>
+                    {% render 'product-variant-options', product: product, option: option, block: block %}
+                  </fieldset>
+                {% endfor %}
+              </variant-radios>
+              
+              <script type="application/json">
+                {{ product.variants | json }}
+              </script>
+            {% endunless %}
+            
+            <div class="product-form__buttons">
+              <button
+                type="submit"
+                name="add"
+                class="btn product-form__cart-submit"
+                {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+              >
+                <span>
+                  {%- if product.selected_or_first_available_variant.available -%}
+                    {{ 'products.product.add_to_cart' | t }}
+                  {%- else -%}
+                    {{ 'products.product.sold_out' | t }}
+                  {%- endif -%}
+                </span>
+              </button>
+            </div>
+          {% endform %}
+        </product-form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.product.settings.header.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_info",
+      "default": true,
+      "label": "t:sections.product.settings.enable_sticky_info.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.product.settings.header__highlight.content",
+      "info": "t:sections.product.settings.header__highlight.info"
+    },
+    {
+      "type": "select",
+      "id": "gallery_layout",
+      "options": [
+        {
+          "value": "stacked",
+          "label": "t:sections.product.settings.gallery_layout.options__1.label"
+        },
+        {
+          "value": "columns",
+          "label": "t:sections.product.settings.gallery_layout.options__2.label"
+        }
+      ],
+      "default": "stacked",
+      "label": "t:sections.product.settings.gallery_layout.label"
+    },
+    {
+      "type": "select",
+      "id": "media_size",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:sections.product.settings.media_size.options__1.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.product.settings.media_size.options__2.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.product.settings.media_size.options__3.label"
+        }
+      ],
+      "default": "large",
+      "label": "t:sections.product.settings.media_size.label",
+      "info": "t:sections.product.settings.media_size.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "constrain_to_viewport",
+      "default": true,
+      "label": "t:sections.product.settings.constrain_to_viewport.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "media_fit",
+      "default": true,
+      "label": "t:sections.product.settings.media_fit.label"
+    }
+  ]
+}
+{% endschema %}
+
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
