@@ -2,14 +2,31 @@
 
 <!-- Hero Banner Section -->
 <section class="relative h-screen overflow-hidden flex items-center justify-center">
+
   {% if section.settings.video_filename != blank %}
     <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
       <source src="{{ section.settings.video_filename | asset_url }}" type="video/mp4">
     </video>
   {% endif %}
-  
+
+  <!-- Overlay -->
   <div class="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
-  
+
+  <!-- Dropdown Top Right -->
+  <div class="absolute top-4 right-6 z-30">
+    <div class="relative">
+      <select onchange="if (this.value) window.location.href=this.value" class="bg-black bg-opacity-50 text-white px-4 py-2 rounded text-sm">
+        <option disabled selected>Categories</option>
+        {% for collection in collections %}
+          {% if collection.all_products_count > 0 %}
+            <option value="{{ collection.url }}">{{ collection.title }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <!-- Hero Content -->
   <div class="relative z-20 text-center text-white px-4">
     <h1 class="text-6xl md:text-8xl font-black mb-4 text-shadow-lg">
       {{ section.settings.heading | default: 'Beyond Ordinary.' }}
@@ -17,7 +34,7 @@
     <p class="text-xl md:text-2xl mb-8 text-shadow">
       {{ section.settings.subheading | default: 'Viral gadgets. Future-proof design.' }}
     </p>
-    
+
     <div class="space-y-4">
       <a href="{{ section.settings.button_url | default: collections.all.url }}" class="cta-button">
         {{ section.settings.button_text | default: 'SHOP THE FUTURE' }}
@@ -68,4 +85,3 @@
   ]
 }
 {% endschema %}
-
