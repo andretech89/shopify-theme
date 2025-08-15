@@ -26,7 +26,8 @@
       <!-- Manual Product Selection -->
       {% for block in section.blocks %}
         {% if block.type == 'product' and block.settings.product != blank %}
-          {% assign product = block.settings.product %}
+          {% assign product = all_products[block.settings.product] %}
+          {% if product %}
           <a href="{{ product.url }}" class="featured-grid-item regular-item">
             {% if product.featured_media %}
               <img src="{{ product.featured_media | image_url: width: 400 }}" 
@@ -47,6 +48,7 @@
               </div>
             </div>
           </a>
+          {% endif %}
         {% endif %}
       {% endfor %}
 
