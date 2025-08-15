@@ -38,22 +38,11 @@
       },
       "featured-products": {
         "type": "featured-products",
-        "blocks": {
-          "product_wPJEXa": {
-            "type": "product",
-            "settings": {
-              "product": "bagel-bread-slicer"
-            }
-          }
-        },
-        "block_order": [
-          "product_wPJEXa"
-        ],
         "settings": {
           "heading": "Featured Products",
           "collection": "",
           "products_count": 6,
-          "show_trending_video": true,
+          "show_trending_video": false,
           "trending_badge": "Now Trending",
           "trending_title": "Discover the Unseen",
           "trending_description": "Experience the future with our curated collection of innovative gadgets.",
