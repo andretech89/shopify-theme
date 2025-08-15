@@ -40,7 +40,7 @@
         "type": "featured-products",
         "settings": {
           "heading": "Featured Products",
-          "collection": "",
+          "collection": "desktop-accessories",
           "products_count": 6,
           "show_trending_video": true,
           "trending_badge": "Now Trending",
