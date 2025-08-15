@@ -102,7 +102,7 @@
             <!-- Fallback for empty collection -->
             <div class="collection-card-inner">
               <div class="collection-placeholder">
-                <i class="fas fa-desktop text-4xl text-gray-500"></i>
+                <i class="fas fa-shopping-bag text-4xl text-gray-500"></i>
               </div>
               <div class="collection-content">
                 <h3 class="collection-title">Select Collection</h3>
@@ -151,7 +151,7 @@
             <!-- Fallback for empty collection -->
             <div class="collection-card-inner">
               <div class="collection-placeholder">
-                <i class="fas fa-home text-4xl text-gray-500"></i>
+                <i class="fas fa-shopping-bag text-4xl text-gray-500"></i>
               </div>
               <div class="collection-content">
                 <h3 class="collection-title">Select Collection</h3>
@@ -205,7 +205,7 @@
             <!-- Fallback for empty collection -->
             <div class="collection-card-inner">
               <div class="collection-placeholder">
-                <i class="fas fa-paw text-4xl text-gray-500"></i>
+                <i class="fas fa-shopping-bag text-4xl text-gray-500"></i>
               </div>
               <div class="collection-content">
                 <h3 class="collection-title">Select Collection</h3>
@@ -254,7 +254,7 @@
             <!-- Fallback for empty collection -->
             <div class="collection-card-inner">
               <div class="collection-placeholder">
-                <i class="fas fa-football-ball text-4xl text-gray-500"></i>
+                <i class="fas fa-shopping-bag text-4xl text-gray-500"></i>
               </div>
               <div class="collection-content">
                 <h3 class="collection-title">Select Collection</h3>
@@ -303,7 +303,7 @@
             <!-- Fallback for empty collection -->
             <div class="collection-card-inner">
               <div class="collection-placeholder">
-                <i class="fas fa-gamepad text-4xl text-gray-500"></i>
+                <i class="fas fa-shopping-bag text-4xl text-gray-500"></i>
               </div>
               <div class="collection-content">
                 <h3 class="collection-title">Select Collection</h3>
@@ -404,136 +404,3 @@
 }
 </style>
 
-{% schema %}
-{
-  "name": "Collections Grid",
-  "settings": [
-    {
-      "type": "header",
-      "content": "General Settings"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_collections",
-      "label": "Show Collections Section",
-      "default": true,
-      "info": "Toggle this section on/off"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
-      "default": "Shop by Category"
-    },
-    {
-      "type": "header",
-      "content": "🔥 ROW 1 - Top 3 Collections"
-    },
-    {
-      "type": "collection",
-      "id": "collection_1",
-      "label": "🚗 Position 1: Top Left"
-    },
-    {
-      "type": "text",
-      "id": "collection_1_icon",
-      "label": "Collection 1 Icon",
-      "default": "fas fa-car"
-    },
-    {
-      "type": "textarea",
-      "id": "collection_1_description",
-      "label": "Collection 1 Custom Description"
-    },
-    {
-      "type": "collection",
-      "id": "collection_2",
-      "label": "💻 Position 2: Top Center"
-    },
-    {
-      "type": "text",
-      "id": "collection_2_icon",
-      "label": "Collection 2 Icon",
-      "default": "fas fa-desktop"
-    },
-    {
-      "type": "textarea",
-      "id": "collection_2_description",
-      "label": "Collection 2 Custom Description"
-    },
-    {
-      "type": "collection",
-      "id": "collection_3",
-      "label": "🏠 Position 3: Top Right"
-    },
-    {
-      "type": "text",
-      "id": "collection_3_icon",
-      "label": "Collection 3 Icon",
-      "default": "fas fa-home"
-    },
-    {
-      "type": "textarea",
-      "id": "collection_3_description",
-      "label": "Collection 3 Custom Description"
-    },
-    {
-      "type": "header",
-      "content": "🔥 ROW 2 - Bottom 3 Collections"
-    },
-    {
-      "type": "collection",
-      "id": "collection_4",
-      "label": "🐾 Position 4: Bottom Left"
-    },
-    {
-      "type": "text",
-      "id": "collection_4_icon",
-      "label": "Collection 4 Icon",
-      "default": "fas fa-paw"
-    },
-    {
-      "type": "textarea",
-      "id": "collection_4_description",
-      "label": "Collection 4 Custom Description"
-    },
-    {
-      "type": "collection",
-      "id": "collection_5",
-      "label": "⚽ Position 5: Bottom Center"
-    },
-    {
-      "type": "text",
-      "id": "collection_5_icon",
-      "label": "Collection 5 Icon",
-      "default": "fas fa-football-ball"
-    },
-    {
-      "type": "textarea",
-      "id": "collection_5_description",
-      "label": "Collection 5 Custom Description"
-    },
-    {
-      "type": "collection",
-      "id": "collection_6",
-      "label": "🎮 Position 6: Bottom Right"
-    },
-    {
-      "type": "text",
-      "id": "collection_6_icon",
-      "label": "Collection 6 Icon",
-      "default": "fas fa-gamepad"
-    },
-    {
-      "type": "textarea",
-      "id": "collection_6_description",
-      "label": "Collection 6 Custom Description"
-    }
-  ],
-  "presets": [
-    {
-      "name": "Collections Grid (3x2)"
-    }
-  ]
-}
-{% endschema %}
