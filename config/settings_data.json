@@ -38,6 +38,17 @@
       },
       "featured-products": {
         "type": "featured-products",
+        "blocks": {
+          "product_wPJEXa": {
+            "type": "product",
+            "settings": {
+              "product": "bagel-bread-slicer"
+            }
+          }
+        },
+        "block_order": [
+          "product_wPJEXa"
+        ],
         "settings": {
           "heading": "Featured Products",
           "collection": "desktop-accessories",
