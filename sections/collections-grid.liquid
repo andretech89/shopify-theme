@@ -2,118 +2,175 @@
 
 <!-- Collections Section -->
 {% if section.settings.show_collections %}
-
-<style>
-.collections-grid-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
-}
-
-@media (min-width: 1024px) {
-  .collections-grid-row {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .collections-grid-row {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
-
 <section class="py-16 bg-gray-900">
-  <div class="container mx-auto">
+  <div class="container mx-auto px-4">
     <h2 class="text-3xl font-bold text-center mb-12 text-white">
       {{ section.settings.heading | default: 'Shop by Category' }}
     </h2>
     
-    <!-- Get collections to display -->
-    {% assign collections_to_show = '' %}
-    {% if section.settings.collections_to_show != blank %}
-      {% assign selected_handles = section.settings.collections_to_show | split: ',' %}
-      {% assign collections_to_show = '' %}
-      {% for handle in selected_handles %}
-        {% assign trimmed_handle = handle | strip %}
-        {% assign collection = collections[trimmed_handle] %}
-        {% if collection %}
-          {% unless collections_to_show == '' %}
-            {% assign collections_to_show = collections_to_show | append: ',' %}
-          {% endunless %}
-          {% assign collections_to_show = collections_to_show | append: collection.handle %}
-        {% endif %}
-      {% endfor %}
-    {% else %}
-      <!-- Default order for your 6 collections -->
-      {% assign collections_to_show = 'car-accessories,desktop-accessories,home-garden,pet-supplies,sporting-goods,video-game-accessories' %}
-    {% endif %}
-    
-    {% assign collection_handles = collections_to_show | split: ',' %}
-    
-    <!-- First Row: 3 collections -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-      {% for i in (0..2) %}
-        {% if collection_handles[i] %}
-          {% assign collection = collections[collection_handles[i]] %}
-          {% if collection %}
-            <a href="{{ collection.url }}" class="group">
-              <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
-                {% if collection.featured_image %}
-                  <img src="{{ collection.featured_image | image_url: width: 400 }}" 
-                       alt="{{ collection.title }}" 
-                       class="w-full h-48 object-cover"
-                       width="400" height="192">
-                {% else %}
-                  <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-                    <i class="fas fa-th-large text-4xl text-gray-500"></i>
-                  </div>
-                {% endif %}
-                <div class="p-6">
-                  <h3 class="text-xl font-bold text-white mb-2">{{ collection.title }}</h3>
-                  <p class="text-gray-400">{{ collection.description | default: 'Discover amazing products in this collection' | truncate: 100 }}</p>
-                  <div class="mt-4">
-                    <span class="text-accent">{{ collection.products_count }} products →</span>
-                  </div>
+    <!-- Fixed 3x2 Grid Layout -->
+    <div class="max-w-6xl mx-auto">
+      <!-- Row 1 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <!-- Car Accessories -->
+        {% assign car_collection = collections['car-accessories'] %}
+        {% if car_collection %}
+          <a href="{{ car_collection.url }}" class="group">
+            <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+              {% if car_collection.featured_image %}
+                <img src="{{ car_collection.featured_image | image_url: width: 400 }}" 
+                     alt="{{ car_collection.title }}" 
+                     class="w-full h-48 object-cover"
+                     width="400" height="192">
+              {% else %}
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                  <i class="fas fa-car text-4xl text-gray-500"></i>
+                </div>
+              {% endif %}
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-white mb-2">{{ car_collection.title }}</h3>
+                <p class="text-gray-400">{{ car_collection.description | default: 'Discover amazing car accessories' | truncate: 100 }}</p>
+                <div class="mt-4">
+                  <span class="text-accent">{{ car_collection.products_count }} products →</span>
                 </div>
               </div>
-            </a>
-          {% endif %}
+            </div>
+          </a>
         {% endif %}
-      {% endfor %}
-    </div>
 
-    <!-- Second Row: 3 collections -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {% for i in (3..5) %}
-        {% if collection_handles[i] %}
-          {% assign collection = collections[collection_handles[i]] %}
-          {% if collection %}
-            <a href="{{ collection.url }}" class="group">
-              <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
-                {% if collection.featured_image %}
-                  <img src="{{ collection.featured_image | image_url: width: 400 }}" 
-                       alt="{{ collection.title }}" 
-                       class="w-full h-48 object-cover"
-                       width="400" height="192">
-                {% else %}
-                  <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-                    <i class="fas fa-th-large text-4xl text-gray-500"></i>
-                  </div>
-                {% endif %}
-                <div class="p-6">
-                  <h3 class="text-xl font-bold text-white mb-2">{{ collection.title }}</h3>
-                  <p class="text-gray-400">{{ collection.description | default: 'Discover amazing products in this collection' | truncate: 100 }}</p>
-                  <div class="mt-4">
-                    <span class="text-accent">{{ collection.products_count }} products →</span>
-                  </div>
+        <!-- Desktop Accessories -->
+        {% assign desktop_collection = collections['desktop-accessories'] %}
+        {% if desktop_collection %}
+          <a href="{{ desktop_collection.url }}" class="group">
+            <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+              {% if desktop_collection.featured_image %}
+                <img src="{{ desktop_collection.featured_image | image_url: width: 400 }}" 
+                     alt="{{ desktop_collection.title }}" 
+                     class="w-full h-48 object-cover"
+                     width="400" height="192">
+              {% else %}
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                  <i class="fas fa-desktop text-4xl text-gray-500"></i>
+                </div>
+              {% endif %}
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-white mb-2">{{ desktop_collection.title }}</h3>
+                <p class="text-gray-400">{{ desktop_collection.description | default: 'Discover amazing desktop accessories' | truncate: 100 }}</p>
+                <div class="mt-4">
+                  <span class="text-accent">{{ desktop_collection.products_count }} products →</span>
                 </div>
               </div>
-            </a>
-          {% endif %}
+            </div>
+          </a>
         {% endif %}
-      {% endfor %}
+
+        <!-- Home & Garden -->
+        {% assign home_collection = collections['home-garden'] %}
+        {% if home_collection %}
+          <a href="{{ home_collection.url }}" class="group">
+            <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+              {% if home_collection.featured_image %}
+                <img src="{{ home_collection.featured_image | image_url: width: 400 }}" 
+                     alt="{{ home_collection.title }}" 
+                     class="w-full h-48 object-cover"
+                     width="400" height="192">
+              {% else %}
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                  <i class="fas fa-home text-4xl text-gray-500"></i>
+                </div>
+              {% endif %}
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-white mb-2">{{ home_collection.title }}</h3>
+                <p class="text-gray-400">{{ home_collection.description | default: 'Discover amazing home & garden products' | truncate: 100 }}</p>
+                <div class="mt-4">
+                  <span class="text-accent">{{ home_collection.products_count }} products →</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Row 2 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Pet Supplies -->
+        {% assign pet_collection = collections['pet-supplies'] %}
+        {% if pet_collection %}
+          <a href="{{ pet_collection.url }}" class="group">
+            <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+              {% if pet_collection.featured_image %}
+                <img src="{{ pet_collection.featured_image | image_url: width: 400 }}" 
+                     alt="{{ pet_collection.title }}" 
+                     class="w-full h-48 object-cover"
+                     width="400" height="192">
+              {% else %}
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                  <i class="fas fa-paw text-4xl text-gray-500"></i>
+                </div>
+              {% endif %}
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-white mb-2">{{ pet_collection.title }}</h3>
+                <p class="text-gray-400">{{ pet_collection.description | default: 'Discover amazing pet supplies' | truncate: 100 }}</p>
+                <div class="mt-4">
+                  <span class="text-accent">{{ pet_collection.products_count }} products →</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        {% endif %}
+
+        <!-- Sporting Goods -->
+        {% assign sport_collection = collections['sporting-goods'] %}
+        {% if sport_collection %}
+          <a href="{{ sport_collection.url }}" class="group">
+            <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+              {% if sport_collection.featured_image %}
+                <img src="{{ sport_collection.featured_image | image_url: width: 400 }}" 
+                     alt="{{ sport_collection.title }}" 
+                     class="w-full h-48 object-cover"
+                     width="400" height="192">
+              {% else %}
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                  <i class="fas fa-football-ball text-4xl text-gray-500"></i>
+                </div>
+              {% endif %}
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-white mb-2">{{ sport_collection.title }}</h3>
+                <p class="text-gray-400">{{ sport_collection.description | default: 'Discover amazing sporting goods' | truncate: 100 }}</p>
+                <div class="mt-4">
+                  <span class="text-accent">{{ sport_collection.products_count }} products →</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        {% endif %}
+
+        <!-- Video Game Accessories -->
+        {% assign gaming_collection = collections['video-game-accessories'] %}
+        {% if gaming_collection %}
+          <a href="{{ gaming_collection.url }}" class="group">
+            <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+              {% if gaming_collection.featured_image %}
+                <img src="{{ gaming_collection.featured_image | image_url: width: 400 }}" 
+                     alt="{{ gaming_collection.title }}" 
+                     class="w-full h-48 object-cover"
+                     width="400" height="192">
+              {% else %}
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                  <i class="fas fa-gamepad text-4xl text-gray-500"></i>
+                </div>
+              {% endif %}
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-white mb-2">{{ gaming_collection.title }}</h3>
+                <p class="text-gray-400">{{ gaming_collection.description | default: 'Discover amazing gaming accessories' | truncate: 100 }}</p>
+                <div class="mt-4">
+                  <span class="text-accent">{{ gaming_collection.products_count }} products →</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </section>
@@ -137,22 +194,6 @@
       "id": "heading",
       "label": "Section Heading",
       "default": "Shop by Category"
-    },
-    {
-      "type": "text",
-      "id": "collections_to_show",
-      "label": "Collections to Display",
-      "info": "Enter collection handles separated by commas in the order you want them displayed. Default order: car-accessories,desktop-accessories,home-garden,pet-supplies,sporting-goods,video-game-accessories",
-      "placeholder": "car-accessories,desktop-accessories,home-garden,pet-supplies,sporting-goods,video-game-accessories"
-    },
-    {
-      "type": "range",
-      "id": "collections_count",
-      "label": "Number of collections to show",
-      "min": 3,
-      "max": 6,
-      "step": 1,
-      "default": 6
     }
   ],
   "presets": [
