@@ -46,100 +46,72 @@
         {% endif %}
       {% endfor %}
     {% else %}
-      <!-- Fallback: show first 6 collections (excluding 'all') -->
-      {% assign collection_count = 0 %}
-      {% assign collections_to_show = '' %}
-      {% for collection in collections %}
-        {% unless collection.handle == 'all' or collection_count >= 6 %}
-          {% unless collections_to_show == '' %}
-            {% assign collections_to_show = collections_to_show | append: ',' %}
-          {% endunless %}
-          {% assign collections_to_show = collections_to_show | append: collection.handle %}
-          {% assign collection_count = collection_count | plus: 1 %}
-        {% endunless %}
-      {% endfor %}
+      <!-- Default order for your 6 collections -->
+      {% assign collections_to_show = 'car-accessories,desktop-accessories,home-garden,pet-supplies,sporting-goods,video-game-accessories' %}
     {% endif %}
     
     {% assign collection_handles = collections_to_show | split: ',' %}
     
-    <!-- First Row: First 3 collections -->
-    <div class="collections-grid-row">
+    <!-- First Row: 3 collections -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
       {% for i in (0..2) %}
         {% if collection_handles[i] %}
           {% assign collection = collections[collection_handles[i]] %}
-          <a href="{{ collection.url }}" class="group">
-            <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
-              {% if collection.featured_image %}
-                <img src="{{ collection.featured_image | image_url: width: 400 }}" 
-                     alt="{{ collection.title }}" 
-                     class="w-full h-48 object-cover"
-                     width="400" height="192">
-              {% else %}
-                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-                  <i class="fas fa-th-large text-4xl text-gray-500"></i>
-                </div>
-              {% endif %}
-              <div class="p-6">
-                <h3 class="text-xl font-bold text-white mb-2">{{ collection.title }}</h3>
-                <p class="text-gray-400">{{ collection.description | default: 'Discover amazing products in this collection' | truncate: 100 }}</p>
-                <div class="mt-4">
-                  <span class="text-accent">{{ collection.products_count }} products →</span>
+          {% if collection %}
+            <a href="{{ collection.url }}" class="group">
+              <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+                {% if collection.featured_image %}
+                  <img src="{{ collection.featured_image | image_url: width: 400 }}" 
+                       alt="{{ collection.title }}" 
+                       class="w-full h-48 object-cover"
+                       width="400" height="192">
+                {% else %}
+                  <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                    <i class="fas fa-th-large text-4xl text-gray-500"></i>
+                  </div>
+                {% endif %}
+                <div class="p-6">
+                  <h3 class="text-xl font-bold text-white mb-2">{{ collection.title }}</h3>
+                  <p class="text-gray-400">{{ collection.description | default: 'Discover amazing products in this collection' | truncate: 100 }}</p>
+                  <div class="mt-4">
+                    <span class="text-accent">{{ collection.products_count }} products →</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </a>
-        {% else %}
-          <!-- Placeholder if no collection available -->
-          <div class="bg-gray-800 rounded-lg overflow-hidden">
-            <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-              <i class="fas fa-th-large text-4xl text-gray-500"></i>
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">Coming Soon</h3>
-              <p class="text-gray-400">New collection coming soon</p>
-            </div>
-          </div>
+            </a>
+          {% endif %}
         {% endif %}
       {% endfor %}
     </div>
 
-    <!-- Second Row: Next 3 collections -->
-    <div class="collections-grid-row">
+    <!-- Second Row: 3 collections -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {% for i in (3..5) %}
         {% if collection_handles[i] %}
           {% assign collection = collections[collection_handles[i]] %}
-          <a href="{{ collection.url }}" class="group">
-            <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
-              {% if collection.featured_image %}
-                <img src="{{ collection.featured_image | image_url: width: 400 }}" 
-                     alt="{{ collection.title }}" 
-                     class="w-full h-48 object-cover"
-                     width="400" height="192">
-              {% else %}
-                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-                  <i class="fas fa-th-large text-4xl text-gray-500"></i>
-                </div>
-              {% endif %}
-              <div class="p-6">
-                <h3 class="text-xl font-bold text-white mb-2">{{ collection.title }}</h3>
-                <p class="text-gray-400">{{ collection.description | default: 'Discover amazing products in this collection' | truncate: 100 }}</p>
-                <div class="mt-4">
-                  <span class="text-accent">{{ collection.products_count }} products →</span>
+          {% if collection %}
+            <a href="{{ collection.url }}" class="group">
+              <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+                {% if collection.featured_image %}
+                  <img src="{{ collection.featured_image | image_url: width: 400 }}" 
+                       alt="{{ collection.title }}" 
+                       class="w-full h-48 object-cover"
+                       width="400" height="192">
+                {% else %}
+                  <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                    <i class="fas fa-th-large text-4xl text-gray-500"></i>
+                  </div>
+                {% endif %}
+                <div class="p-6">
+                  <h3 class="text-xl font-bold text-white mb-2">{{ collection.title }}</h3>
+                  <p class="text-gray-400">{{ collection.description | default: 'Discover amazing products in this collection' | truncate: 100 }}</p>
+                  <div class="mt-4">
+                    <span class="text-accent">{{ collection.products_count }} products →</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </a>
-        {% else %}
-          <!-- Placeholder if no collection available -->
-          <div class="bg-gray-800 rounded-lg overflow-hidden">
-            <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-              <i class="fas fa-th-large text-4xl text-gray-500"></i>
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-white mb-2">Coming Soon</h3>
-              <p class="text-gray-400">New collection coming soon</p>
-            </div>
-          </div>
+            </a>
+          {% endif %}
         {% endif %}
       {% endfor %}
     </div>
@@ -170,8 +142,8 @@
       "type": "text",
       "id": "collections_to_show",
       "label": "Collections to Display",
-      "info": "Enter collection handles separated by commas (e.g., car-accessories,pet-supplies,desktop-accessories). Leave blank to show first 6 collections automatically.",
-      "placeholder": "car-accessories,pet-supplies,desktop-accessories"
+      "info": "Enter collection handles separated by commas in the order you want them displayed. Default order: car-accessories,desktop-accessories,home-garden,pet-supplies,sporting-goods,video-game-accessories",
+      "placeholder": "car-accessories,desktop-accessories,home-garden,pet-supplies,sporting-goods,video-game-accessories"
     },
     {
       "type": "range",
