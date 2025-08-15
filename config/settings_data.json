@@ -39,20 +39,9 @@
       },
       "featured-products": {
         "type": "featured-products",
-        "blocks": {
-          "product_JK73bW": {
-            "type": "product",
-            "settings": {
-              "product": "3d-pen"
-            }
-          }
-        },
-        "block_order": [
-          "product_JK73bW"
-        ],
         "settings": {
           "heading": "Featured Products",
-          "collection": "",
+          "collection": "home-garden",
           "products_count": 6,
           "show_trending_video": true,
           "trending_badge": "Now Trending",
