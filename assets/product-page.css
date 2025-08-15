@@ -239,16 +239,6 @@
   color: var(--text-primary);
 }
 
-.product__vendor,
-.product__type {
-  margin: 0 0 0.5rem;
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-}
-
 /* Pricing */
 .product__price {
   margin: 1.5rem 0;
