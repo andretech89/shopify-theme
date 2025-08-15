@@ -2,7 +2,7 @@
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-between h-16">
       
-      <!-- Navigation Menu (Left Side) -->
+      <!-- Navigation Menu (Left Side) - No Logo -->
       <nav class="hidden md:flex space-x-8">
         {% for link in linklists.main-menu.links %}
           <a href="{{ link.url }}" 
@@ -11,6 +11,9 @@
           </a>
         {% endfor %}
       </nav>
+      
+      <!-- Mobile: Empty div to maintain spacing -->
+      <div class="md:hidden flex-1"></div>
       
       <!-- Right Side: Categories Dropdown, Search, Account, Cart -->
       <div class="flex items-center space-x-4">
@@ -50,6 +53,7 @@
             </div>
           </div>
         </div>
+        
         <!-- Search Icon -->
         <button class="search-toggle text-white hover:text-cyan-400 transition-colors duration-200" 
                 aria-label="Search">
@@ -57,6 +61,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
           </svg>
         </button>
+        
         <!-- Account Icon -->
         <a href="{{ routes.account_url }}" 
            class="text-white hover:text-cyan-400 transition-colors duration-200" 
@@ -65,6 +70,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
           </svg>
         </a>
+        
         <!-- Cart Icon -->
         <a href="{{ routes.cart_url }}" 
            class="relative text-white hover:text-cyan-400 transition-colors duration-200" 
@@ -78,6 +84,7 @@
             </span>
           {% endif %}
         </a>
+        
         <!-- Mobile Menu Toggle -->
         <button class="md:hidden text-white hover:text-cyan-400 transition-colors duration-200" 
                 aria-label="Menu">
@@ -88,6 +95,7 @@
       </div>
     </div>
   </div>
+  
   <!-- Search Bar (Hidden by default, shown when search is clicked) -->
   <div class="search-bar hidden border-t border-gray-800 bg-black/95">
     <div class="container mx-auto px-4 py-4">
@@ -139,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const categoriesDropdown = document.getElementById('categoriesDropdown');
   const categoriesArrow = document.getElementById('categoriesArrow');
   let isDropdownOpen = false;
+  
   if (categoriesButton && categoriesDropdown) {
     // Toggle dropdown on button click
     categoriesButton.addEventListener('click', function(e) {
@@ -146,16 +155,19 @@ document.addEventListener('DOMContentLoaded', function() {
       e.stopPropagation();
       toggleDropdown();
     });
+    
     // Close dropdown when clicking outside
     document.addEventListener('click', function(e) {
       if (!categoriesButton.contains(e.target) && !categoriesDropdown.contains(e.target)) {
         closeDropdown();
       }
     });
+    
     // Prevent dropdown from closing when clicking inside it
     categoriesDropdown.addEventListener('click', function(e) {
       e.stopPropagation();
     });
+    
     function toggleDropdown() {
       if (isDropdownOpen) {
         closeDropdown();
@@ -163,12 +175,14 @@ document.addEventListener('DOMContentLoaded', function() {
         openDropdown();
       }
     }
+    
     function openDropdown() {
       categoriesDropdown.classList.remove('opacity-0', 'invisible', 'translate-y-2');
       categoriesDropdown.classList.add('opacity-100', 'visible', 'translate-y-0');
       categoriesArrow.style.transform = 'rotate(180deg)';
       isDropdownOpen = true;
     }
+    
     function closeDropdown() {
       categoriesDropdown.classList.remove('opacity-100', 'visible', 'translate-y-0');
       categoriesDropdown.classList.add('opacity-0', 'invisible', 'translate-y-2');
@@ -176,6 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
       isDropdownOpen = false;
     }
   }
+  
   // Search toggle functionality
   const searchToggle = document.querySelector('.search-toggle');
   const searchBar = document.querySelector('.search-bar');
@@ -191,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+  
   // Mobile menu toggle
   const mobileMenuToggle = document.querySelector('.md\\:hidden button[aria-label="Menu"]');
   const mobileMenu = document.querySelector('.mobile-menu');
@@ -207,13 +223,16 @@ document.addEventListener('DOMContentLoaded', function() {
 .text-shadow {
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
+
 .text-shadow-lg {
   text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
 }
+
 /* Ensure dropdown appears above other elements */
 #categoriesDropdown {
   z-index: 9999;
 }
+
 /* Custom scrollbar for dropdown if needed */
 #categoriesDropdown {
   scrollbar-width: thin;
@@ -221,21 +240,35 @@ document.addEventListener('DOMContentLoaded', function() {
   max-height: 400px;
   overflow-y: auto;
 }
+
 #categoriesDropdown::-webkit-scrollbar {
   width: 6px;
 }
+
 #categoriesDropdown::-webkit-scrollbar-track {
   background: #1F2937;
 }
+
 #categoriesDropdown::-webkit-scrollbar-thumb {
   background-color: #00FFFF;
   border-radius: 3px;
 }
+
 /* Smooth transitions */
 #categoriesDropdown {
   transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
 }
+
 #categoriesArrow {
   transition: transform 0.2s ease;
+}
+
+/* Hide any potential logo elements */
+.site-header .logo,
+.site-header .site-logo,
+.site-header .header-logo,
+.site-header img[alt*="logo" i],
+.site-header .brand-logo {
+  display: none !important;
 }
 </style>
