@@ -861,7 +861,7 @@
         "type": "checkbox",
         "id": "show_vendor",
         "label": "Show product vendor",
-        "default": true
+        "default": false
       },
       {
         "type": "checkbox",
