@@ -31,32 +31,7 @@
   <header class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-90 backdrop-blur-md border-b border-white border-opacity-10">
     <div class="container mx-auto px-4 py-4 flex items-center justify-between">
       
-      <!-- Logo -->
-      <div class="flex items-center">
-        <a href="{{ routes.root_url }}" class="flex items-center space-x-3">
-          {% if settings.logo != blank %}
-           <img 
-             src="{{ settings.logo | image_url: width: settings.logo_width | default: 150 }}"
-             alt="{{ shop.name | escape }}"
-             width="{{ settings.logo_width | default: 150 }}"
-             height="40"
-             class="h-10 w-auto max-w-[150px]"
-             loading="lazy"
-            />
-          {% else %}
-            <img 
-             src="{{ 'synthify-goods-logo.png' | asset_url }}" 
-             alt="{{ shop.name | escape }}" 
-             width="150" 
-             height="40"
-             class="h-10 w-auto max-w-[150px]"
-             loading="lazy"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
-            />
-            <span class="text-2xl font-bold text-white hidden">{{ shop.name }}</span>
-          {% endif %}
-        </a>
-    </div>
+      <!-- Logo Section REMOVED - No more logo here -->
 
       <!-- Search -->
       {% render 'animated-search' %}
