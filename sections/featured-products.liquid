@@ -62,7 +62,7 @@
       <!-- Manual Product Selection -->
       {% for block in section.blocks %}
         {% if block.type == 'product' and block.settings.product != blank %}
-          {% assign product = all_products[block.settings.product] %}
+          {% assign product = block.settings.product %}
           
           <!-- Debug: Show if product was found -->
           {% if product == blank %}
