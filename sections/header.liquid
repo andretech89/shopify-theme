@@ -33,17 +33,17 @@
       <div class="flex items-center space-x-4">
         
         <!-- Product Categories Dropdown -->
-        <div class="relative group">
-          <button class="flex items-center space-x-1 text-white hover:text-cyan-400 transition-colors duration-200 py-2">
+        <div class="relative">
+          <button id="categoriesButton" class="flex items-center space-x-1 text-white hover:text-cyan-400 transition-colors duration-200 py-2">
             <span class="font-medium">Categories</span>
-            <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" 
+            <svg id="categoriesArrow" class="w-4 h-4 transition-transform duration-200" 
                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </button>
           
           <!-- Dropdown Menu -->
-          <div class="absolute right-0 mt-2 w-64 bg-black/95 backdrop-blur-sm border border-gray-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+          <div id="categoriesDropdown" class="absolute right-0 mt-2 w-64 bg-black/95 backdrop-blur-sm border border-gray-700 rounded-lg shadow-xl opacity-0 invisible transition-all duration-200 transform translate-y-2 z-50">
             <div class="py-2">
               {% for collection in collections %}
                 {% unless collection.handle == 'frontpage' %}
@@ -157,6 +157,55 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // Categories dropdown functionality
+  const categoriesButton = document.getElementById('categoriesButton');
+  const categoriesDropdown = document.getElementById('categoriesDropdown');
+  const categoriesArrow = document.getElementById('categoriesArrow');
+  let isDropdownOpen = false;
+
+  if (categoriesButton && categoriesDropdown) {
+    // Toggle dropdown on button click
+    categoriesButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleDropdown();
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!categoriesButton.contains(e.target) && !categoriesDropdown.contains(e.target)) {
+        closeDropdown();
+      }
+    });
+
+    // Prevent dropdown from closing when clicking inside it
+    categoriesDropdown.addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
+
+    function toggleDropdown() {
+      if (isDropdownOpen) {
+        closeDropdown();
+      } else {
+        openDropdown();
+      }
+    }
+
+    function openDropdown() {
+      categoriesDropdown.classList.remove('opacity-0', 'invisible', 'translate-y-2');
+      categoriesDropdown.classList.add('opacity-100', 'visible', 'translate-y-0');
+      categoriesArrow.style.transform = 'rotate(180deg)';
+      isDropdownOpen = true;
+    }
+
+    function closeDropdown() {
+      categoriesDropdown.classList.remove('opacity-100', 'visible', 'translate-y-0');
+      categoriesDropdown.classList.add('opacity-0', 'invisible', 'translate-y-2');
+      categoriesArrow.style.transform = 'rotate(0deg)';
+      isDropdownOpen = false;
+    }
+  }
+
   // Search toggle functionality
   const searchToggle = document.querySelector('.search-toggle');
   const searchBar = document.querySelector('.search-bar');
@@ -194,38 +243,38 @@ document.addEventListener('DOMContentLoaded', function() {
   text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
 }
 
-/* Smooth dropdown animation */
-.group:hover .group-hover\\:opacity-100 {
-  animation: fadeInUp 0.2s ease-out;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Ensure dropdown appears above other elements */
+#categoriesDropdown {
+  z-index: 9999;
 }
 
 /* Custom scrollbar for dropdown if needed */
-.group:hover div {
+#categoriesDropdown {
   scrollbar-width: thin;
   scrollbar-color: #00FFFF #1F2937;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
-.group:hover div::-webkit-scrollbar {
+#categoriesDropdown::-webkit-scrollbar {
   width: 6px;
 }
 
-.group:hover div::-webkit-scrollbar-track {
+#categoriesDropdown::-webkit-scrollbar-track {
   background: #1F2937;
 }
 
-.group:hover div::-webkit-scrollbar-thumb {
+#categoriesDropdown::-webkit-scrollbar-thumb {
   background-color: #00FFFF;
   border-radius: 3px;
+}
+
+/* Smooth transitions */
+#categoriesDropdown {
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+}
+
+#categoriesArrow {
+  transition: transform 0.2s ease;
 }
 </style>
