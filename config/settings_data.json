@@ -18,7 +18,7 @@
     "hero_subtitle": "Viral gadgets. Future-proof design.",
     "hero_button_text": "SHOP THE FUTURE",
     "hero_button_link": "/collections/all",
-    "show_vendor": true,
+    "show_vendor": false,
     "show_product_type": true,
     "product_image_size": "medium",
     "social_facebook_url": "",
