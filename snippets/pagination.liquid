@@ -1,0 +1,19 @@
+{% if paginate.pages > 1 %}
+  <nav class="pagination" role="navigation">
+    {% if paginate.previous %}
+      <a href="{{ paginate.previous.url }}" class="prev">Previous</a>
+    {% endif %}
+
+    {% for part in paginate.parts %}
+      {% if part.is_link %}
+        <a href="{{ part.url }}">{{ part.title }}</a>
+      {% else %}
+        <span class="current">{{ part.title }}</span>
+      {% endif %}
+    {% endfor %}
+
+    {% if paginate.next %}
+      <a href="{{ paginate.next.url }}" class="next">Next</a>
+    {% endif %}
+  </nav>
+{% endif %}
