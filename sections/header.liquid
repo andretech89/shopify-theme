@@ -4,6 +4,21 @@
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-between h-16">
       
+      <!-- Logo (Left Side) -->
+      <div class="flex-shrink-0">
+        <a href="{{ routes.root_url }}" class="text-white text-2xl font-bold">
+          {% if settings.logo %}
+            <img src="{{ settings.logo | image_url: width: settings.logo_width }}" 
+                 alt="{{ shop.name }}" 
+                 width="{{ settings.logo_width }}" 
+                 height="auto"
+                 class="h-8 w-auto">
+          {% else %}
+            {{ shop.name }}
+          {% endif %}
+        </a>
+      </div>
+
       <!-- Navigation Menu (Center) -->
       <nav class="hidden md:flex space-x-8">
         {% for link in linklists.main-menu.links %}
