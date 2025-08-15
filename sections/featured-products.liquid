@@ -23,52 +23,81 @@
       </div>
       {% endif %}
 
-      <!-- Dynamic Products from tradelle.io -->
-      {% if section.settings.collection != blank %}
-        {% assign selected_collection = collections[section.settings.collection] %}
-        {% assign products_to_show = section.settings.products_count | default: 6 %}
-        
-        {% for product in selected_collection.products %}
-          {% if forloop.index <= products_to_show %}
-            <a href="{{ product.url }}" class="featured-grid-item regular-item">
-              {% if product.featured_media %}
-                <img src="{{ product.featured_media | image_url: width: 400 }}" 
-                     alt="{{ product.featured_media.alt | escape }}" 
-                     width="400" height="400"
-                     class="featured-grid-item-media">
-              {% else %}
-                <div class="featured-grid-item-media bg-gray-800 flex items-center justify-center">
-                  <i class="fas fa-image text-4xl text-gray-600"></i>
-                </div>
-              {% endif %}
-              
-              <div class="featured-grid-item-content">
-                <h3 class="featured-grid-item-title">{{ product.title | truncate: 40 }}</h3>
-                <p class="featured-grid-item-description">{{ product.description | strip_html | truncate: 100 }}</p>
-                <div class="featured-grid-item-footer">
-                  <span class="featured-grid-item-tag">{{ product.price | money }}</span>
-                </div>
+      <!-- Manual Product Selection -->
+      {% for block in section.blocks %}
+        {% if block.type == 'product' and block.settings.product != blank %}
+          {% assign product = all_products[block.settings.product] %}
+          <a href="{{ product.url }}" class="featured-grid-item regular-item">
+            {% if product.featured_media %}
+              <img src="{{ product.featured_media | image_url: width: 400 }}" 
+                   alt="{{ product.featured_media.alt | escape }}" 
+                   width="400" height="400"
+                   class="featured-grid-item-media">
+            {% else %}
+              <div class="featured-grid-item-media bg-gray-800 flex items-center justify-center">
+                <i class="fas fa-image text-4xl text-gray-600"></i>
               </div>
-            </a>
-          {% endif %}
-        {% endfor %}
-      {% else %}
-        <!-- If no collection selected, show placeholder items -->
-        {% assign placeholder_count = section.settings.products_count | default: 6 %}
-        {% for i in (1..placeholder_count) %}
-          <div class="featured-grid-item regular-item">
-            <div class="featured-grid-item-media bg-gray-800 flex items-center justify-center">
-              <i class="fas fa-box text-4xl text-gray-600"></i>
-            </div>
+            {% endif %}
+            
             <div class="featured-grid-item-content">
-              <h3 class="featured-grid-item-title">Product Coming Soon</h3>
-              <p class="featured-grid-item-description">Amazing products will appear here once you import them from tradelle.io</p>
+              <h3 class="featured-grid-item-title">{{ product.title | truncate: 40 }}</h3>
+              <p class="featured-grid-item-description">{{ product.description | strip_html | truncate: 100 }}</p>
               <div class="featured-grid-item-footer">
-                <span class="featured-grid-item-tag">Soon</span>
+                <span class="featured-grid-item-tag">{{ product.price | money }}</span>
               </div>
             </div>
-          </div>
-        {% endfor %}
+          </a>
+        {% endif %}
+      {% endfor %}
+
+      <!-- Fallback: Collection-based products if no manual products selected -->
+      {% if section.blocks.size == 0 %}
+        {% if section.settings.collection != blank %}
+          {% assign selected_collection = collections[section.settings.collection] %}
+          {% assign products_to_show = section.settings.products_count | default: 6 %}
+          
+          {% for product in selected_collection.products %}
+            {% if forloop.index <= products_to_show %}
+              <a href="{{ product.url }}" class="featured-grid-item regular-item">
+                {% if product.featured_media %}
+                  <img src="{{ product.featured_media | image_url: width: 400 }}" 
+                       alt="{{ product.featured_media.alt | escape }}" 
+                       width="400" height="400"
+                       class="featured-grid-item-media">
+                {% else %}
+                  <div class="featured-grid-item-media bg-gray-800 flex items-center justify-center">
+                    <i class="fas fa-image text-4xl text-gray-600"></i>
+                  </div>
+                {% endif %}
+                
+                <div class="featured-grid-item-content">
+                  <h3 class="featured-grid-item-title">{{ product.title | truncate: 40 }}</h3>
+                  <p class="featured-grid-item-description">{{ product.description | strip_html | truncate: 100 }}</p>
+                  <div class="featured-grid-item-footer">
+                    <span class="featured-grid-item-tag">{{ product.price | money }}</span>
+                  </div>
+                </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <!-- If no collection or manual products selected, show placeholder items -->
+          {% assign placeholder_count = section.settings.products_count | default: 6 %}
+          {% for i in (1..placeholder_count) %}
+            <div class="featured-grid-item regular-item">
+              <div class="featured-grid-item-media bg-gray-800 flex items-center justify-center">
+                <i class="fas fa-box text-4xl text-gray-600"></i>
+              </div>
+              <div class="featured-grid-item-content">
+                <h3 class="featured-grid-item-title">Product Coming Soon</h3>
+                <p class="featured-grid-item-description">Amazing products will appear here once you import them from tradelle.io</p>
+                <div class="featured-grid-item-footer">
+                  <span class="featured-grid-item-tag">Soon</span>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
       {% endif %}
     </div>
   </div>
@@ -87,13 +116,13 @@
     {
       "type": "collection",
       "id": "collection",
-      "label": "Product Collection",
-      "info": "Choose which collection to display"
+      "label": "Product Collection (Fallback)",
+      "info": "Choose which collection to display if no manual products are selected"
     },
     {
       "type": "range",
       "id": "products_count",
-      "label": "Number of products to show",
+      "label": "Number of products to show (fallback)",
       "min": 3,
       "max": 12,
       "step": 1,
@@ -137,10 +166,24 @@
       "default": "synthify-goods-featured-product.mp4"
     }
   ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Featured Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
       "name": "Featured Products"
     }
-  ]
+  ],
+  "max_blocks": 12
 }
 {% endschema %}
