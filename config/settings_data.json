@@ -39,9 +39,20 @@
       },
       "featured-products": {
         "type": "featured-products",
+        "blocks": {
+          "product_qkatPr": {
+            "type": "product",
+            "settings": {
+              "product": "10x-plant-rooting-ball"
+            }
+          }
+        },
+        "block_order": [
+          "product_qkatPr"
+        ],
         "settings": {
           "heading": "Featured Products",
-          "collection": "home-garden",
+          "collection": "",
           "products_count": 6,
           "show_trending_video": true,
           "trending_badge": "Now Trending",
