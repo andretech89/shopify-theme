@@ -11,6 +11,8 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
   padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .featured-grid-item {
@@ -25,6 +27,7 @@
   flex-direction: column;
   text-decoration: none;
   color: white;
+  min-height: 350px;
 }
 
 .featured-grid-item:hover {
@@ -43,6 +46,10 @@
   height: 250px;
   object-fit: cover;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(45deg, #2c3e50, #3498db);
 }
 
 .featured-grid-item.featured-item .featured-grid-item-media {
@@ -146,11 +153,14 @@
 
       <!-- Check if we have any valid manual product selections -->
       {% assign has_valid_products = false %}
+      {% assign products_count = 0 %}
+      
       {% for block in section.blocks %}
         {% if block.type == 'product' and block.settings.product != blank %}
           {% assign product = all_products[block.settings.product] %}
           {% if product %}
             {% assign has_valid_products = true %}
+            {% assign products_count = products_count | plus: 1 %}
             <a href="{{ product.url }}" class="featured-grid-item regular-item">
               {% if product.featured_media %}
                 <img src="{{ product.featured_media | image_url: width: 400 }}" 
@@ -158,8 +168,8 @@
                      width="400" height="400"
                      class="featured-grid-item-media">
               {% else %}
-                <div class="featured-grid-item-media bg-gray-800 flex items-center justify-center">
-                  <i class="fas fa-image text-4xl text-gray-600"></i>
+                <div class="featured-grid-item-media">
+                  <i class="fas fa-image text-4xl text-white opacity-50"></i>
                 </div>
               {% endif %}
               
@@ -175,7 +185,7 @@
         {% endif %}
       {% endfor %}
 
-      <!-- Fallback: Collection-based products if no valid manual products -->
+      <!-- Fallback 1: Collection-based products if no valid manual products -->
       {% unless has_valid_products %}
         {% if section.settings.collection != blank %}
           {% assign selected_collection = collections[section.settings.collection] %}
@@ -183,6 +193,7 @@
           
           {% for product in selected_collection.products %}
             {% if forloop.index <= products_to_show %}
+              {% assign products_count = products_count | plus: 1 %}
               <a href="{{ product.url }}" class="featured-grid-item regular-item">
                 {% if product.featured_media %}
                   <img src="{{ product.featured_media | image_url: width: 400 }}" 
@@ -190,8 +201,8 @@
                        width="400" height="400"
                        class="featured-grid-item-media">
                 {% else %}
-                  <div class="featured-grid-item-media bg-gray-800 flex items-center justify-center">
-                    <i class="fas fa-image text-4xl text-gray-600"></i>
+                  <div class="featured-grid-item-media">
+                    <i class="fas fa-image text-4xl text-white opacity-50"></i>
                   </div>
                 {% endif %}
                 
@@ -206,22 +217,55 @@
             {% endif %}
           {% endfor %}
         {% else %}
-          <!-- If no collection or manual products selected, show placeholder items -->
-          {% assign placeholder_count = section.settings.products_count | default: 6 %}
-          {% for i in (1..placeholder_count) %}
-            <div class="featured-grid-item regular-item">
-              <div class="featured-grid-item-media bg-gray-800 flex items-center justify-center">
-                <i class="fas fa-box text-4xl text-gray-600"></i>
-              </div>
-              <div class="featured-grid-item-content">
-                <h3 class="featured-grid-item-title">Product Coming Soon</h3>
-                <p class="featured-grid-item-description">Amazing products will appear here once you import them from tradelle.io</p>
-                <div class="featured-grid-item-footer">
-                  <span class="featured-grid-item-tag">Soon</span>
+          <!-- Fallback 2: Show any available products from your store -->
+          {% assign products_to_show = section.settings.products_count | default: 6 %}
+          {% assign products_shown = 0 %}
+          
+          {% for product in collections.all.products %}
+            {% if products_shown < products_to_show %}
+              {% assign products_shown = products_shown | plus: 1 %}
+              {% assign products_count = products_count | plus: 1 %}
+              <a href="{{ product.url }}" class="featured-grid-item regular-item">
+                {% if product.featured_media %}
+                  <img src="{{ product.featured_media | image_url: width: 400 }}" 
+                       alt="{{ product.featured_media.alt | escape }}" 
+                       width="400" height="400"
+                       class="featured-grid-item-media">
+                {% else %}
+                  <div class="featured-grid-item-media">
+                    <i class="fas fa-image text-4xl text-white opacity-50"></i>
+                  </div>
+                {% endif %}
+                
+                <div class="featured-grid-item-content">
+                  <h3 class="featured-grid-item-title">{{ product.title | truncate: 40 }}</h3>
+                  <p class="featured-grid-item-description">{{ product.description | strip_html | truncate: 100 }}</p>
+                  <div class="featured-grid-item-footer">
+                    <span class="featured-grid-item-tag">{{ product.price | money }}</span>
+                  </div>
+                </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+          
+          <!-- Final fallback: Show placeholders if no products exist at all -->
+          {% if products_count == 0 %}
+            {% assign placeholder_count = section.settings.products_count | default: 6 %}
+            {% for i in (1..placeholder_count) %}
+              <div class="featured-grid-item regular-item">
+                <div class="featured-grid-item-media">
+                  <i class="fas fa-box text-4xl text-white opacity-50"></i>
+                </div>
+                <div class="featured-grid-item-content">
+                  <h3 class="featured-grid-item-title">Product Coming Soon</h3>
+                  <p class="featured-grid-item-description">Amazing products will appear here once you add them to your store</p>
+                  <div class="featured-grid-item-footer">
+                    <span class="featured-grid-item-tag">Soon</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          {% endfor %}
+            {% endfor %}
+          {% endif %}
         {% endif %}
       {% endunless %}
     </div>
