@@ -744,7 +744,7 @@
         "type": "checkbox",
         "id": "search_show_pages",
         "label": "Show pages in search",
-        "default": false
+        "default": true
       }
     ]
   },
