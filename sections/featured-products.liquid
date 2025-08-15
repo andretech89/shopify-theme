@@ -1,47 +1,40 @@
-<!-- Debug Featured Products Section -->
-<section class="featured-grid-container">
-  <div class="container mx-auto">
+<!-- sections/featured-products.liquid -->
+<section class="featured-grid-container py-16 bg-gray-900">
+  <div class="container mx-auto px-4">
     <h2 class="text-4xl font-black text-center mb-12 text-white">
       {{ section.settings.heading | default: 'Featured Products' }}
     </h2>
     
-    <!-- Debug Information -->
-    <div style="background: #333; color: white; padding: 10px; margin: 10px 0;">
-      <p><strong>Debug Info:</strong></p>
-      <p>Show trending video: {{ section.settings.show_trending_video }}</p>
-      <p>Blocks count: {{ section.blocks.size }}</p>
-      <p>Collection setting: {{ section.settings.collection }}</p>
-      <p>Products count setting: {{ section.settings.products_count }}</p>
-    </div>
-    
-    <div class="featured-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+    <div class="featured-grid max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       
-      <!-- Featured Video Item -->
+      <!-- Featured Video Item (if enabled) -->
       {% if section.settings.show_trending_video %}
-      <div class="featured-grid-item featured-item" style="background: #222; padding: 20px; border-radius: 8px;">
-        <span class="featured-badge" style="background: #ff6b35; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px;">
-          {{ section.settings.trending_badge | default: 'Now Trending' }}
-        </span>
+      <div class="featured-grid-item featured-item bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+        <div class="relative">
+          <span class="absolute top-4 left-4 z-10 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+            {{ section.settings.trending_badge | default: 'Now Trending' }}
+          </span>
+          
+          {% if section.settings.featured_video_filename %}
+            <video autoplay loop muted playsinline class="w-full h-48 object-cover">
+              <source src="{{ section.settings.featured_video_filename | asset_url }}" type="video/mp4">
+            </video>
+          {% else %}
+            <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+              <p class="text-gray-400">No video file specified</p>
+            </div>
+          {% endif %}
+        </div>
         
-        {% if section.settings.featured_video_filename %}
-          <video autoplay loop muted playsinline class="featured-grid-item-media" style="width: 100%; height: 200px; object-fit: cover; margin: 10px 0;">
-            <source src="{{ section.settings.featured_video_filename | asset_url }}" type="video/mp4">
-          </video>
-        {% else %}
-          <div style="width: 100%; height: 200px; background: #444; display: flex; align-items: center; justify-content: center; margin: 10px 0;">
-            <p style="color: #888;">No video file specified</p>
-          </div>
-        {% endif %}
-        
-        <div class="featured-grid-item-content">
-          <h3 class="featured-grid-item-title" style="color: white; font-size: 18px; margin: 10px 0;">
+        <div class="p-6">
+          <h3 class="text-white text-lg font-bold mb-2">
             {{ section.settings.trending_title | default: 'Discover the Unseen' }}
           </h3>
-          <p class="featured-grid-item-description" style="color: #ccc; font-size: 14px;">
+          <p class="text-gray-300 text-sm mb-4">
             {{ section.settings.trending_description | default: 'Experience the future with our curated collection of innovative gadgets from tradelle.io.' }}
           </p>
-          <div class="featured-grid-item-footer" style="margin-top: 15px;">
-            <span class="featured-grid-item-tag" style="background: #555; color: white; padding: 3px 8px; border-radius: 10px; font-size: 12px;">
+          <div class="flex justify-between items-center">
+            <span class="bg-gray-600 text-white px-3 py-1 rounded-full text-xs">
               {{ section.settings.trending_tag | default: 'Innovation' }}
             </span>
           </div>
@@ -49,145 +42,140 @@
       </div>
       {% endif %}
 
-      <!-- Debug: Show what blocks we have -->
-      {% if section.blocks.size > 0 %}
-        <div style="background: #333; color: white; padding: 10px; margin: 10px 0;">
-          <p><strong>Found {{ section.blocks.size }} blocks:</strong></p>
-          {% for block in section.blocks %}
-            <p>Block {{ forloop.index }}: Type = {{ block.type }}</p>
-            <p>Product setting: {{ block.settings.product }}</p>
-            <p>Product type: {{ block.settings.product | type }}</p>
-            {% if block.settings.product %}
-              <p>Product title: {{ block.settings.product.title }}</p>
-              <p>Product handle: {{ block.settings.product.handle }}</p>
-              <p>Product ID: {{ block.settings.product.id }}</p>
-            {% endif %}
-            <hr style="margin: 10px 0;">
-          {% endfor %}
-        </div>
-      {% endif %}
-
-      <!-- Manual Product Selection -->
+      <!-- Manual Product Selection from Blocks -->
       {% for block in section.blocks %}
-        {% if block.type == 'product' %}
+        {% if block.type == 'product' and block.settings.product %}
           {% assign product = block.settings.product %}
           
-          <div style="background: #444; color: white; padding: 10px; margin: 10px 0;">
-            <p><strong>Processing Block {{ forloop.index }}:</strong></p>
-            <p>Product exists: {% if product %}YES{% else %}NO{% endif %}</p>
-            {% if product %}
-              <p>Product title: {{ product.title }}</p>
-              <p>Product available: {{ product.available }}</p>
-              <p>Product published: {{ product.published_at }}</p>
-            {% endif %}
-          </div>
-          
-          {% if product %}
-            <a href="{{ product.url }}" class="featured-grid-item regular-item" style="background: #222; padding: 20px; border-radius: 8px; text-decoration: none; display: block;">
-              {% if product.featured_media %}
-                <img src="{{ product.featured_media | image_url: width: 400 }}" 
-                     alt="{{ product.featured_media.alt | escape }}" 
-                     width="400" height="200"
-                     style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px;"
-                     class="featured-grid-item-media">
-              {% else %}
-                <div class="featured-grid-item-media" style="width: 100%; height: 200px; background: #444; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
-                  <span style="color: #888; font-size: 24px;">📦</span>
-                </div>
-              {% endif %}
-              
-              <div class="featured-grid-item-content" style="margin-top: 15px;">
-                <h3 class="featured-grid-item-title" style="color: white; font-size: 16px; margin-bottom: 8px;">
-                  {{ product.title | truncate: 40 }}
-                </h3>
-                <p class="featured-grid-item-description" style="color: #ccc; font-size: 14px; margin-bottom: 10px;">
-                  {{ product.description | strip_html | truncate: 100 }}
-                </p>
-                <div class="featured-grid-item-footer">
-                  <span class="featured-grid-item-tag" style="background: #ff6b35; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px;">
-                    {{ product.price | money }}
-                  </span>
-                </div>
+          <a href="{{ product.url }}" class="featured-grid-item regular-item bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 block">
+            {% if product.featured_media %}
+              <img src="{{ product.featured_media | image_url: width: 400 }}" 
+                   alt="{{ product.featured_media.alt | escape }}" 
+                   width="400" height="192"
+                   class="w-full h-48 object-cover">
+            {% else %}
+              <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                <span class="text-gray-400 text-4xl">📦</span>
               </div>
-            </a>
-          {% else %}
-            <div style="background: #663333; color: white; padding: 20px; border-radius: 8px;">
-              <p><strong>No product found for block {{ forloop.index }}</strong></p>
+            {% endif %}
+            
+            <div class="p-6">
+              <h3 class="text-white text-lg font-bold mb-2">
+                {{ product.title | truncate: 40 }}
+              </h3>
+              <p class="text-gray-300 text-sm mb-4">
+                {{ product.description | strip_html | truncate: 100 }}
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                  {{ product.price | money }}
+                </span>
+                {% if product.available == false %}
+                  <span class="text-red-400 text-xs">Sold Out</span>
+                {% endif %}
+              </div>
             </div>
-          {% endif %}
+          </a>
         {% endif %}
       {% endfor %}
 
       <!-- Fallback: Collection-based products if no manual products selected -->
-      {% if section.blocks.size == 0 %}
+      {% assign manual_products_count = 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'product' and block.settings.product %}
+          {% assign manual_products_count = manual_products_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+      
+      {% if manual_products_count == 0 %}
         {% if section.settings.collection != blank %}
           {% assign selected_collection = collections[section.settings.collection] %}
           {% assign products_to_show = section.settings.products_count | default: 6 %}
-          
-          <div style="background: #336633; color: white; padding: 10px; margin: 10px 0;">
-            <p><strong>Using collection fallback:</strong> {{ section.settings.collection }}</p>
-            <p>Collection found: {% if selected_collection %}true{% else %}false{% endif %}</p>
-            <p>Products in collection: {{ selected_collection.products.size | default: 0 }}</p>
-          </div>
+          {% if section.settings.show_trending_video %}
+            {% assign products_to_show = products_to_show | minus: 1 %}
+          {% endif %}
           
           {% if selected_collection %}
-            {% for product in selected_collection.products %}
-              {% if forloop.index <= products_to_show %}
-                <a href="{{ product.url }}" class="featured-grid-item regular-item" style="background: #222; padding: 20px; border-radius: 8px; text-decoration: none; display: block;">
-                  {% if product.featured_media %}
-                    <img src="{{ product.featured_media | image_url: width: 400 }}" 
-                         alt="{{ product.featured_media.alt | escape }}" 
-                         width="400" height="200"
-                         style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px;"
-                         class="featured-grid-item-media">
-                  {% else %}
-                    <div class="featured-grid-item-media" style="width: 100%; height: 200px; background: #444; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
-                      <span style="color: #888; font-size: 24px;">📦</span>
-                    </div>
-                  {% endif %}
-                  
-                  <div class="featured-grid-item-content" style="margin-top: 15px;">
-                    <h3 class="featured-grid-item-title" style="color: white; font-size: 16px; margin-bottom: 8px;">
-                      {{ product.title | truncate: 40 }}
-                    </h3>
-                    <p class="featured-grid-item-description" style="color: #ccc; font-size: 14px; margin-bottom: 10px;">
-                      {{ product.description | strip_html | truncate: 100 }}
-                    </p>
-                    <div class="featured-grid-item-footer">
-                      <span class="featured-grid-item-tag" style="background: #ff6b35; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px;">
-                        {{ product.price | money }}
-                      </span>
-                    </div>
+            {% for product in selected_collection.products limit: products_to_show %}
+              <a href="{{ product.url }}" class="featured-grid-item regular-item bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 block">
+                {% if product.featured_media %}
+                  <img src="{{ product.featured_media | image_url: width: 400 }}" 
+                       alt="{{ product.featured_media.alt | escape }}" 
+                       width="400" height="192"
+                       class="w-full h-48 object-cover">
+                {% else %}
+                  <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                    <span class="text-gray-400 text-4xl">📦</span>
                   </div>
-                </a>
-              {% endif %}
+                {% endif %}
+                
+                <div class="p-6">
+                  <h3 class="text-white text-lg font-bold mb-2">
+                    {{ product.title | truncate: 40 }}
+                  </h3>
+                  <p class="text-gray-300 text-sm mb-4">
+                    {{ product.description | strip_html | truncate: 100 }}
+                  </p>
+                  <div class="flex justify-between items-center">
+                    <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                      {{ product.price | money }}
+                    </span>
+                    {% if product.available == false %}
+                      <span class="text-red-400 text-xs">Sold Out</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </a>
             {% endfor %}
           {% else %}
-            <div style="background: #663333; color: white; padding: 20px; border-radius: 8px;">
-              <p><strong>Collection not found:</strong> {{ section.settings.collection }}</p>
-            </div>
+            <!-- Collection not found fallback -->
+            {% assign placeholder_count = section.settings.products_count | default: 6 %}
+            {% if section.settings.show_trending_video %}
+              {% assign placeholder_count = placeholder_count | minus: 1 %}
+            {% endif %}
+            
+            {% for i in (1..placeholder_count) %}
+              <div class="featured-grid-item regular-item bg-gray-800 rounded-lg overflow-hidden">
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                  <span class="text-gray-400 text-4xl">📦</span>
+                </div>
+                <div class="p-6">
+                  <h3 class="text-white text-lg font-bold mb-2">
+                    Product Coming Soon
+                  </h3>
+                  <p class="text-gray-300 text-sm mb-4">
+                    Amazing products will appear here once you import them from tradelle.io
+                  </p>
+                  <div class="flex justify-between items-center">
+                    <span class="bg-gray-600 text-white px-3 py-1 rounded-full text-sm">
+                      Soon
+                    </span>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
           {% endif %}
         {% else %}
-          <!-- If no collection or manual products selected, show placeholder items -->
-          <div style="background: #666633; color: white; padding: 10px; margin: 10px 0;">
-            <p><strong>No products or collection selected - showing placeholders</strong></p>
-          </div>
-          
+          <!-- No collection selected, show placeholders -->
           {% assign placeholder_count = section.settings.products_count | default: 6 %}
+          {% if section.settings.show_trending_video %}
+            {% assign placeholder_count = placeholder_count | minus: 1 %}
+          {% endif %}
+          
           {% for i in (1..placeholder_count) %}
-            <div class="featured-grid-item regular-item" style="background: #222; padding: 20px; border-radius: 8px;">
-              <div class="featured-grid-item-media" style="width: 100%; height: 200px; background: #444; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
-                <span style="color: #888; font-size: 24px;">📦</span>
+            <div class="featured-grid-item regular-item bg-gray-800 rounded-lg overflow-hidden">
+              <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                <span class="text-gray-400 text-4xl">📦</span>
               </div>
-              <div class="featured-grid-item-content" style="margin-top: 15px;">
-                <h3 class="featured-grid-item-title" style="color: white; font-size: 16px; margin-bottom: 8px;">
+              <div class="p-6">
+                <h3 class="text-white text-lg font-bold mb-2">
                   Product Coming Soon
                 </h3>
-                <p class="featured-grid-item-description" style="color: #ccc; font-size: 14px; margin-bottom: 10px;">
+                <p class="text-gray-300 text-sm mb-4">
                   Amazing products will appear here once you import them from tradelle.io
                 </p>
-                <div class="featured-grid-item-footer">
-                  <span class="featured-grid-item-tag" style="background: #555; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px;">
+                <div class="flex justify-between items-center">
+                  <span class="bg-gray-600 text-white px-3 py-1 rounded-full text-sm">
                     Soon
                   </span>
                 </div>
@@ -202,7 +190,7 @@
 
 {% schema %}
 {
-  "name": "Featured Products (Debug)",
+  "name": "Featured Products",
   "settings": [
     {
       "type": "text",
@@ -224,6 +212,10 @@
       "max": 12,
       "step": 1,
       "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Trending Video Section"
     },
     {
       "type": "checkbox",
@@ -278,7 +270,7 @@
   ],
   "presets": [
     {
-      "name": "Featured Products (Debug)"
+      "name": "Featured Products"
     }
   ],
   "max_blocks": 12
