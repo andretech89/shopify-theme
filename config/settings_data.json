@@ -51,7 +51,7 @@
         ],
         "settings": {
           "heading": "Featured Products",
-          "collection": "desktop-accessories",
+          "collection": "",
           "products_count": 6,
           "show_trending_video": true,
           "trending_badge": "Now Trending",
