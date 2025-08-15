@@ -23,37 +23,39 @@
       </div>
       {% endif %}
 
-      <!-- Manual Product Selection -->
+      <!-- Check if we have any valid manual product selections -->
+      {% assign has_valid_products = false %}
       {% for block in section.blocks %}
         {% if block.type == 'product' and block.settings.product != blank %}
           {% assign product = all_products[block.settings.product] %}
           {% if product %}
-          <a href="{{ product.url }}" class="featured-grid-item regular-item">
-            {% if product.featured_media %}
-              <img src="{{ product.featured_media | image_url: width: 400 }}" 
-                   alt="{{ product.featured_media.alt | escape }}" 
-                   width="400" height="400"
-                   class="featured-grid-item-media">
-            {% else %}
-              <div class="featured-grid-item-media bg-gray-800 flex items-center justify-center">
-                <i class="fas fa-image text-4xl text-gray-600"></i>
+            {% assign has_valid_products = true %}
+            <a href="{{ product.url }}" class="featured-grid-item regular-item">
+              {% if product.featured_media %}
+                <img src="{{ product.featured_media | image_url: width: 400 }}" 
+                     alt="{{ product.featured_media.alt | escape }}" 
+                     width="400" height="400"
+                     class="featured-grid-item-media">
+              {% else %}
+                <div class="featured-grid-item-media bg-gray-800 flex items-center justify-center">
+                  <i class="fas fa-image text-4xl text-gray-600"></i>
+                </div>
+              {% endif %}
+              
+              <div class="featured-grid-item-content">
+                <h3 class="featured-grid-item-title">{{ product.title | truncate: 40 }}</h3>
+                <p class="featured-grid-item-description">{{ product.description | strip_html | truncate: 100 }}</p>
+                <div class="featured-grid-item-footer">
+                  <span class="featured-grid-item-tag">{{ product.price | money }}</span>
+                </div>
               </div>
-            {% endif %}
-            
-            <div class="featured-grid-item-content">
-              <h3 class="featured-grid-item-title">{{ product.title | truncate: 40 }}</h3>
-              <p class="featured-grid-item-description">{{ product.description | strip_html | truncate: 100 }}</p>
-              <div class="featured-grid-item-footer">
-                <span class="featured-grid-item-tag">{{ product.price | money }}</span>
-              </div>
-            </div>
-          </a>
+            </a>
           {% endif %}
         {% endif %}
       {% endfor %}
 
-      <!-- Fallback: Collection-based products if no manual products selected -->
-      {% if section.blocks.size == 0 %}
+      <!-- Fallback: Collection-based products if no valid manual products -->
+      {% unless has_valid_products %}
         {% if section.settings.collection != blank %}
           {% assign selected_collection = collections[section.settings.collection] %}
           {% assign products_to_show = section.settings.products_count | default: 6 %}
@@ -100,7 +102,7 @@
             </div>
           {% endfor %}
         {% endif %}
-      {% endif %}
+      {% endunless %}
     </div>
   </div>
 </section>
