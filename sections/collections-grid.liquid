@@ -2,6 +2,28 @@
 
 <!-- Collections Section -->
 {% if section.settings.show_collections %}
+
+<style>
+.collections-grid-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .collections-grid-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .collections-grid-row {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
 <section class="py-16 bg-gray-900">
   <div class="container mx-auto">
     <h2 class="text-3xl font-bold text-center mb-12 text-white">
@@ -41,7 +63,7 @@
     {% assign collection_handles = collections_to_show | split: ',' %}
     
     <!-- First Row: First 3 collections -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+    <div class="collections-grid-row">
       {% for i in (0..2) %}
         {% if collection_handles[i] %}
           {% assign collection = collections[collection_handles[i]] %}
@@ -82,7 +104,7 @@
     </div>
 
     <!-- Second Row: Next 3 collections -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="collections-grid-row">
       {% for i in (3..5) %}
         {% if collection_handles[i] %}
           {% assign collection = collections[collection_handles[i]] %}
