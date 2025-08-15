@@ -57,6 +57,12 @@
               "product": "bluetooth-tesla-coil"
             }
           },
+          "product_KBm4YQ": {
+            "type": "product",
+            "settings": {
+              "product": ""
+            }
+          },
           "product_rqQKxE": {
             "type": "product",
             "settings": {
@@ -80,6 +86,7 @@
           "product_XDazUb",
           "product_WkMwhy",
           "product_bYcba3",
+          "product_KBm4YQ",
           "product_rqQKxE",
           "product_FFDkkU",
           "product_pqfhRh"
@@ -100,7 +107,25 @@
         "type": "collections-grid",
         "settings": {
           "show_collections": true,
-          "heading": "Shop by Category"
+          "heading": "Shop by Category",
+          "collection_1": "",
+          "collection_1_icon": "fas fa-car",
+          "collection_1_description": "",
+          "collection_2": "",
+          "collection_2_icon": "fas fa-desktop",
+          "collection_2_description": "",
+          "collection_3": "",
+          "collection_3_icon": "fas fa-home",
+          "collection_3_description": "",
+          "collection_4": "",
+          "collection_4_icon": "fas fa-paw",
+          "collection_4_description": "",
+          "collection_5": "",
+          "collection_5_icon": "fas fa-football-ball",
+          "collection_5_description": "",
+          "collection_6": "",
+          "collection_6_icon": "fas fa-gamepad",
+          "collection_6_description": ""
         }
       }
     },
