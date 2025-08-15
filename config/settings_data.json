@@ -28,6 +28,7 @@
     "sections": {
       "hero-banner": {
         "type": "hero-banner",
+        "custom_css": [],
         "settings": {
           "heading": "Beyond Ordinary.",
           "subheading": "Viral gadgets. Future-proof design.",
@@ -38,6 +39,17 @@
       },
       "featured-products": {
         "type": "featured-products",
+        "blocks": {
+          "product_JK73bW": {
+            "type": "product",
+            "settings": {
+              "product": "3d-pen"
+            }
+          }
+        },
+        "block_order": [
+          "product_JK73bW"
+        ],
         "settings": {
           "heading": "Featured Products",
           "collection": "",
@@ -81,6 +93,11 @@
       "7924418359578431505": {
         "type": "shopify://apps/seoant-ai-seo/blocks/seoant-core/8e57283b-dcb0-4f7b-a947-fb5c57a0d59d",
         "disabled": false,
+        "settings": {}
+      },
+      "11532412952436166569": {
+        "type": "shopify://apps/loox-reviews/blocks/loox-inject/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+        "disabled": true,
         "settings": {}
       }
     }
