@@ -1,8 +1,17 @@
-{% comment %}
-  Homepage template - Replace your current templates/index.liquid with this
-  This calls sections instead of containing static content
-{% endcomment %}
+<!-- templates/index.liquid -->
 
+<!-- Hero Banner Section -->
 {% section 'hero-banner' %}
+
+<!-- Featured Products Section -->  
 {% section 'featured-products' %}
+
+<!-- Collections Grid Section -->
 {% section 'collections-grid' %}
+
+<!-- You can also make these sections dynamic by using: -->
+<!-- 
+{% for section in template.sections %}
+  {% render section %}
+{% endfor %}
+-->
