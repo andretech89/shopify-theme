@@ -38,17 +38,6 @@
       },
       "featured-products": {
         "type": "featured-products",
-        "blocks": {
-          "product_A84PyJ": {
-            "type": "product",
-            "settings": {
-              "product": "bagel-bread-slicer"
-            }
-          }
-        },
-        "block_order": [
-          "product_A84PyJ"
-        ],
         "settings": {
           "heading": "Featured Products",
           "collection": "",
