@@ -54,23 +54,35 @@
         <div style="background: #333; color: white; padding: 10px; margin: 10px 0;">
           <p><strong>Found {{ section.blocks.size }} blocks:</strong></p>
           {% for block in section.blocks %}
-            <p>Block {{ forloop.index }}: Type = {{ block.type }}, Product = {{ block.settings.product }}</p>
+            <p>Block {{ forloop.index }}: Type = {{ block.type }}</p>
+            <p>Product setting: {{ block.settings.product }}</p>
+            <p>Product type: {{ block.settings.product | type }}</p>
+            {% if block.settings.product %}
+              <p>Product title: {{ block.settings.product.title }}</p>
+              <p>Product handle: {{ block.settings.product.handle }}</p>
+              <p>Product ID: {{ block.settings.product.id }}</p>
+            {% endif %}
+            <hr style="margin: 10px 0;">
           {% endfor %}
         </div>
       {% endif %}
 
       <!-- Manual Product Selection -->
       {% for block in section.blocks %}
-        {% if block.type == 'product' and block.settings.product != blank %}
+        {% if block.type == 'product' %}
           {% assign product = block.settings.product %}
           
-          <!-- Debug: Show if product was found -->
-          {% if product == blank %}
-            <div style="background: #663333; color: white; padding: 20px; border-radius: 8px;">
-              <p><strong>Product not found:</strong> {{ block.settings.product }}</p>
-              <p>This could mean the product handle is incorrect or the product doesn't exist.</p>
-            </div>
-          {% else %}
+          <div style="background: #444; color: white; padding: 10px; margin: 10px 0;">
+            <p><strong>Processing Block {{ forloop.index }}:</strong></p>
+            <p>Product exists: {% if product %}YES{% else %}NO{% endif %}</p>
+            {% if product %}
+              <p>Product title: {{ product.title }}</p>
+              <p>Product available: {{ product.available }}</p>
+              <p>Product published: {{ product.published_at }}</p>
+            {% endif %}
+          </div>
+          
+          {% if product %}
             <a href="{{ product.url }}" class="featured-grid-item regular-item" style="background: #222; padding: 20px; border-radius: 8px; text-decoration: none; display: block;">
               {% if product.featured_media %}
                 <img src="{{ product.featured_media | image_url: width: 400 }}" 
@@ -98,6 +110,10 @@
                 </div>
               </div>
             </a>
+          {% else %}
+            <div style="background: #663333; color: white; padding: 20px; border-radius: 8px;">
+              <p><strong>No product found for block {{ forloop.index }}</strong></p>
+            </div>
           {% endif %}
         {% endif %}
       {% endfor %}
