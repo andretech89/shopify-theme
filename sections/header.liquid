@@ -2,39 +2,36 @@
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-between h-16">
       
-      <!-- Navigation Menu (Left Side) - No Logo -->
+      <!-- Navigation Menu (Left Side) -->
       <nav class="hidden md:flex space-x-8">
         {% for link in linklists.main-menu.links %}
-          <a href="{{ link.url }}" 
-             class="text-white hover:text-cyan-400 transition-colors duration-200 font-medium">
+          <a href="{{ link.url }}" class="text-white hover:text-cyan-400 transition-colors duration-200 font-medium">
             {{ link.title }}
           </a>
         {% endfor %}
       </nav>
-      
+
       <!-- Mobile: Empty div to maintain spacing -->
       <div class="md:hidden flex-1"></div>
-      
-      <!-- Right Side: Categories Dropdown, Search, Account, Cart -->
+
+      <!-- Right Side -->
       <div class="flex items-center space-x-4">
         
-        <!-- Product Categories Dropdown -->
+        <!-- Categories Dropdown -->
         <div class="relative">
           <button id="categoriesButton" class="flex items-center space-x-1 text-white hover:text-cyan-400 transition-colors duration-200 py-2">
             <span class="font-medium">Categories</span>
-            <svg id="categoriesArrow" class="w-4 h-4 transition-transform duration-200" 
-                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            <svg id="categoriesArrow" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          
-          <!-- Dropdown Menu -->
+
+          <!-- Dropdown -->
           <div id="categoriesDropdown" class="absolute right-0 mt-2 w-64 bg-black/95 backdrop-blur-sm border border-gray-700 rounded-lg shadow-xl opacity-0 invisible transition-all duration-200 transform translate-y-2 z-50">
             <div class="py-2">
               {% for collection in collections %}
                 {% unless collection.handle == 'frontpage' %}
-                  <a href="{{ collection.url }}" 
-                     class="block px-4 py-3 text-white hover:bg-cyan-400/10 hover:text-cyan-400 transition-colors duration-200">
+                  <a href="{{ collection.url }}" class="block px-4 py-3 text-white hover:bg-cyan-400/10 hover:text-cyan-400 transition-colors duration-200">
                     <div class="flex items-center justify-between">
                       <span class="font-medium">{{ collection.title }}</span>
                       <span class="text-xs text-gray-400">({{ collection.products_count }})</span>
@@ -42,41 +39,33 @@
                   </a>
                 {% endunless %}
               {% endfor %}
-              
-              <!-- View All Collections Link -->
               <div class="border-t border-gray-700 mt-2 pt-2">
-                <a href="{{ collections.all.url }}" 
-                   class="block px-4 py-3 text-cyan-400 hover:bg-cyan-400/10 transition-colors duration-200 font-semibold">
+                <a href="{{ collections.all.url }}" class="block px-4 py-3 text-cyan-400 hover:bg-cyan-400/10 transition-colors duration-200 font-semibold">
                   View All Products →
                 </a>
               </div>
             </div>
           </div>
         </div>
-        
+
         <!-- Search Icon -->
-        <button class="search-toggle text-white hover:text-cyan-400 transition-colors duration-200" 
-                aria-label="Search">
+        <button class="search-toggle text-white hover:text-cyan-400 transition-colors duration-200" aria-label="Search">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </button>
-        
-        <!-- Account Icon -->
-        <a href="{{ routes.account_url }}" 
-           class="text-white hover:text-cyan-400 transition-colors duration-200" 
-           aria-label="Account">
+
+        <!-- Account -->
+        <a href="{{ routes.account_url }}" class="text-white hover:text-cyan-400 transition-colors duration-200" aria-label="Account">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
         </a>
-        
-        <!-- Cart Icon -->
-        <a href="{{ routes.cart_url }}" 
-           class="relative text-white hover:text-cyan-400 transition-colors duration-200" 
-           aria-label="Cart">
+
+        <!-- Cart -->
+        <a href="{{ routes.cart_url }}" class="relative text-white hover:text-cyan-400 transition-colors duration-200" aria-label="Cart">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m0 0L17 18m-8 0h8"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m0 0L17 18m-8 0h8" />
           </svg>
           {% if cart.item_count > 0 %}
             <span class="absolute -top-2 -right-2 bg-cyan-400 text-black text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
@@ -84,217 +73,44 @@
             </span>
           {% endif %}
         </a>
-        
+
         <!-- Mobile Menu Toggle -->
-        <button class="md:hidden text-white hover:text-cyan-400 transition-colors duration-200" 
-                aria-label="Menu">
+        <button class="md:hidden text-white hover:text-cyan-400 transition-colors duration-200" aria-label="Menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
       </div>
     </div>
   </div>
-  
-  <!-- Search Bar (Hidden by default, shown when search is clicked) -->
+
+  <!-- Search Bar with Collection Dropdown -->
   <div class="search-bar hidden border-t border-gray-800 bg-black/95">
     <div class="container mx-auto px-4 py-4">
-      <form action="{{ routes.search_url }}" method="get" role="search" class="relative max-w-md mx-auto">
-        <input type="search" 
-               name="q" 
-               placeholder="Search products..." 
-               class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 pl-12 text-white placeholder-gray-400 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20">
-        <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" 
-             fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-        </svg>
+      <form onsubmit="return filterSearchByCollection(this)" role="search" class="relative max-w-2xl mx-auto flex space-x-2 items-center">
+        
+        <!-- Collections Dropdown -->
+        <select name="collection" class="bg-gray-900 border border-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20">
+          <option value="">All Collections</option>
+          {% for collection in collections %}
+            {% unless collection.handle == 'frontpage' %}
+              <option value="{{ collection.handle }}">{{ collection.title }}</option>
+            {% endunless %}
+          {% endfor %}
+        </select>
+
+        <!-- Search Input -->
+        <div class="relative w-full">
+          <input type="search" 
+                 name="q" 
+                 placeholder="Search products..." 
+                 class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 pl-12 text-white placeholder-gray-400 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20">
+          <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" 
+               fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
       </form>
     </div>
   </div>
 </header>
-
-<!-- Mobile Menu (Hidden by default) -->
-<div class="mobile-menu hidden md:hidden bg-black/95 backdrop-blur-sm border-b border-gray-800">
-  <div class="container mx-auto px-4 py-4">
-    <nav class="space-y-4">
-      {% for link in linklists.main-menu.links %}
-        <a href="{{ link.url }}" 
-           class="block text-white hover:text-cyan-400 transition-colors duration-200 py-2 font-medium">
-          {{ link.title }}
-        </a>
-      {% endfor %}
-      
-      <!-- Mobile Categories -->
-      <div class="border-t border-gray-800 pt-4 mt-4">
-        <h3 class="text-cyan-400 font-semibold mb-3">Categories</h3>
-        {% for collection in collections %}
-          {% unless collection.handle == 'frontpage' %}
-            <a href="{{ collection.url }}" 
-               class="block text-white hover:text-cyan-400 transition-colors duration-200 py-2 pl-4">
-              {{ collection.title }} ({{ collection.products_count }})
-            </a>
-          {% endunless %}
-        {% endfor %}
-      </div>
-    </nav>
-  </div>
-</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Categories dropdown functionality
-  const categoriesButton = document.getElementById('categoriesButton');
-  const categoriesDropdown = document.getElementById('categoriesDropdown');
-  const categoriesArrow = document.getElementById('categoriesArrow');
-  let isDropdownOpen = false;
-  
-  if (categoriesButton && categoriesDropdown) {
-    // Toggle dropdown on button click
-    categoriesButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      toggleDropdown();
-    });
-    
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-      if (!categoriesButton.contains(e.target) && !categoriesDropdown.contains(e.target)) {
-        closeDropdown();
-      }
-    });
-    
-    // Prevent dropdown from closing when clicking inside it
-    categoriesDropdown.addEventListener('click', function(e) {
-      e.stopPropagation();
-    });
-    
-    function toggleDropdown() {
-      if (isDropdownOpen) {
-        closeDropdown();
-      } else {
-        openDropdown();
-      }
-    }
-    
-    function openDropdown() {
-      categoriesDropdown.classList.remove('opacity-0', 'invisible', 'translate-y-2');
-      categoriesDropdown.classList.add('opacity-100', 'visible', 'translate-y-0');
-      categoriesArrow.style.transform = 'rotate(180deg)';
-      isDropdownOpen = true;
-    }
-    
-    function closeDropdown() {
-      categoriesDropdown.classList.remove('opacity-100', 'visible', 'translate-y-0');
-      categoriesDropdown.classList.add('opacity-0', 'invisible', 'translate-y-2');
-      categoriesArrow.style.transform = 'rotate(0deg)';
-      isDropdownOpen = false;
-    }
-  }
-  
-  // Search toggle functionality
-  const searchToggle = document.querySelector('.search-toggle');
-  const searchBar = document.querySelector('.search-bar');
-  
-  if (searchToggle && searchBar) {
-    searchToggle.addEventListener('click', function() {
-      searchBar.classList.toggle('hidden');
-      if (!searchBar.classList.contains('hidden')) {
-        const searchInput = searchBar.querySelector('input[type="search"]');
-        if (searchInput) {
-          searchInput.focus();
-        }
-      }
-    });
-  }
-  
-  // Mobile menu toggle
-  const mobileMenuToggle = document.querySelector('.md\\:hidden button[aria-label="Menu"]');
-  const mobileMenu = document.querySelector('.mobile-menu');
-  
-  if (mobileMenuToggle && mobileMenu) {
-    mobileMenuToggle.addEventListener('click', function() {
-      mobileMenu.classList.toggle('hidden');
-    });
-  }
-});
-</script>
-
-<style>
-.text-shadow {
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-}
-
-.text-shadow-lg {
-  text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
-}
-
-/* Ensure dropdown appears above other elements */
-#categoriesDropdown {
-  z-index: 9999;
-}
-
-/* Custom scrollbar for dropdown if needed */
-#categoriesDropdown {
-  scrollbar-width: thin;
-  scrollbar-color: #00FFFF #1F2937;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-#categoriesDropdown::-webkit-scrollbar {
-  width: 6px;
-}
-
-#categoriesDropdown::-webkit-scrollbar-track {
-  background: #1F2937;
-}
-
-#categoriesDropdown::-webkit-scrollbar-thumb {
-  background-color: #00FFFF;
-  border-radius: 3px;
-}
-
-/* Smooth transitions */
-#categoriesDropdown {
-  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
-}
-
-#categoriesArrow {
-  transition: transform 0.2s ease;
-}
-
-/* Hide any potential logo elements - More aggressive targeting */
-.site-header .logo,
-.site-header .site-logo,
-.site-header .header-logo,
-.site-header img[alt*="logo" i],
-.site-header .brand-logo,
-.site-header .header__logo,
-.site-header .header-brand,
-.site-header .brand,
-.header .logo,
-.header .site-logo,
-.header .header-logo,
-.header .brand-logo,
-.header .header__logo,
-.header .header-brand,
-.header .brand,
-.header img,
-.site-header img,
-/* Target the specific white square logo */
-.site-header a[href="/"],
-.header a[href="/"],
-.site-header .header__heading,
-.header .header__heading,
-/* Hide any link that might contain just an image as logo */
-.site-header a:first-child img,
-.header a:first-child img,
-/* Hide any potential logo containers */
-.logo-container,
-.brand-container,
-.header-logo-container {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-}
-</style>
