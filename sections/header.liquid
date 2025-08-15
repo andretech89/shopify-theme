@@ -118,3 +118,76 @@
     </div>
   </div>
 </header>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Categories dropdown toggle
+    const categoriesButton = document.getElementById('categoriesButton');
+    const categoriesDropdown = document.getElementById('categoriesDropdown');
+    const categoriesArrow = document.getElementById('categoriesArrow');
+    let isDropdownOpen = false;
+
+    if (categoriesButton && categoriesDropdown) {
+      categoriesButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleDropdown();
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!categoriesButton.contains(e.target) && !categoriesDropdown.contains(e.target)) {
+          closeDropdown();
+        }
+      });
+
+      categoriesDropdown.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+
+      function toggleDropdown() {
+        isDropdownOpen ? closeDropdown() : openDropdown();
+      }
+
+      function openDropdown() {
+        categoriesDropdown.classList.remove('opacity-0', 'invisible', 'translate-y-2');
+        categoriesDropdown.classList.add('opacity-100', 'visible', 'translate-y-0');
+        categoriesArrow.style.transform = 'rotate(180deg)';
+        isDropdownOpen = true;
+      }
+
+      function closeDropdown() {
+        categoriesDropdown.classList.remove('opacity-100', 'visible', 'translate-y-0');
+        categoriesDropdown.classList.add('opacity-0', 'invisible', 'translate-y-2');
+        categoriesArrow.style.transform = 'rotate(0deg)';
+        isDropdownOpen = false;
+      }
+    }
+
+    // Search toggle
+    const searchToggle = document.querySelector('.search-toggle');
+    const searchBar = document.querySelector('.search-bar');
+
+    if (searchToggle && searchBar) {
+      searchToggle.addEventListener('click', function () {
+        searchBar.classList.toggle('hidden');
+        if (!searchBar.classList.contains('hidden')) {
+          const searchInput = searchBar.querySelector('input[type="search"]');
+          if (searchInput) searchInput.focus();
+        }
+      });
+    }
+  });
+
+  // 🔍 Search by Collection JS
+  function filterSearchByCollection(form) {
+    const collection = form.collection.value;
+    const query = form.q.value.trim();
+
+    if (collection) {
+      window.location.href = `/collections/${collection}?q=${encodeURIComponent(query)}`;
+    } else {
+      window.location.href = `/search?q=${encodeURIComponent(query)}`;
+    }
+
+    return false;
+  }
+</script>
