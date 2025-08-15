@@ -1,36 +1,130 @@
-<!-- Featured Products Section - DEBUG VERSION -->
+<!-- Featured Products Section -->
+<style>
+.featured-grid-container {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding: 80px 0;
+  min-height: 600px;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 0 20px;
+}
+
+.featured-grid-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: white;
+}
+
+.featured-grid-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.featured-grid-item.featured-item {
+  grid-column: span 2;
+  min-height: 400px;
+}
+
+.featured-grid-item-media {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.featured-grid-item.featured-item .featured-grid-item-media {
+  height: 300px;
+}
+
+.featured-grid-item-content {
+  padding: 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.featured-grid-item-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: white;
+  line-height: 1.3;
+}
+
+.featured-grid-item-description {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+.featured-grid-item-footer {
+  margin-top: auto;
+}
+
+.featured-grid-item-tag {
+  background: linear-gradient(45deg, #ff6b6b, #ffa500);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.featured-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: linear-gradient(45deg, #ff416c, #ff4b2b);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  z-index: 2;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@media (max-width: 768px) {
+  .featured-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .featured-grid-item.featured-item {
+    grid-column: span 1;
+  }
+  
+  .featured-grid-container {
+    padding: 40px 0;
+  }
+}
+</style>
+
 <section class="featured-grid-container">
   <div class="container mx-auto">
     <h2 class="text-4xl font-black text-center mb-12 text-white">
       {{ section.settings.heading | default: 'Featured Products' }}
     </h2>
-    
-    <!-- DEBUG INFO - Remove this after fixing -->
-    <div style="background: red; color: white; padding: 20px; margin: 20px 0; font-family: monospace;">
-      <h3>DEBUG INFO:</h3>
-      <p>Section blocks count: {{ section.blocks.size }}</p>
-      <p>Collection setting: {{ section.settings.collection }}</p>
-      <p>Show trending video: {{ section.settings.show_trending_video }}</p>
-      <p>Products count setting: {{ section.settings.products_count }}</p>
-      
-      {% if section.settings.collection != blank %}
-        {% assign selected_collection = collections[section.settings.collection] %}
-        <p>Selected collection exists: {% if selected_collection %}YES{% else %}NO{% endif %}</p>
-        {% if selected_collection %}
-          <p>Collection products count: {{ selected_collection.products.size }}</p>
-        {% endif %}
-      {% endif %}
-      
-      <p>Manual blocks:</p>
-      {% for block in section.blocks %}
-        <p>Block {{ forloop.index }}: Type={{ block.type }}, Product={{ block.settings.product }}</p>
-        {% if block.settings.product != blank %}
-          {% assign product = all_products[block.settings.product] %}
-          <p>  - Product exists: {% if product %}YES ({{ product.title }}){% else %}NO{% endif %}</p>
-        {% endif %}
-      {% endfor %}
-    </div>
-    <!-- END DEBUG INFO -->
     
     <div class="featured-grid">
       <!-- Featured Video Item -->
@@ -52,14 +146,11 @@
 
       <!-- Check if we have any valid manual product selections -->
       {% assign has_valid_products = false %}
-      {% assign products_displayed = 0 %}
-      
       {% for block in section.blocks %}
         {% if block.type == 'product' and block.settings.product != blank %}
           {% assign product = all_products[block.settings.product] %}
           {% if product %}
             {% assign has_valid_products = true %}
-            {% assign products_displayed = products_displayed | plus: 1 %}
             <a href="{{ product.url }}" class="featured-grid-item regular-item">
               {% if product.featured_media %}
                 <img src="{{ product.featured_media | image_url: width: 400 }}" 
@@ -92,7 +183,6 @@
           
           {% for product in selected_collection.products %}
             {% if forloop.index <= products_to_show %}
-              {% assign products_displayed = products_displayed | plus: 1 %}
               <a href="{{ product.url }}" class="featured-grid-item regular-item">
                 {% if product.featured_media %}
                   <img src="{{ product.featured_media | image_url: width: 400 }}" 
@@ -116,10 +206,9 @@
             {% endif %}
           {% endfor %}
         {% else %}
-          <!-- If no collection selected, show placeholder items -->
+          <!-- If no collection or manual products selected, show placeholder items -->
           {% assign placeholder_count = section.settings.products_count | default: 6 %}
           {% for i in (1..placeholder_count) %}
-            {% assign products_displayed = products_displayed | plus: 1 %}
             <div class="featured-grid-item regular-item">
               <div class="featured-grid-item-media bg-gray-800 flex items-center justify-center">
                 <i class="fas fa-box text-4xl text-gray-600"></i>
@@ -135,11 +224,6 @@
           {% endfor %}
         {% endif %}
       {% endunless %}
-      
-      <!-- Final debug info -->
-      <div style="grid-column: 1 / -1; background: blue; color: white; padding: 10px; font-family: monospace;">
-        Products displayed: {{ products_displayed }} | Has valid products: {{ has_valid_products }}
-      </div>
     </div>
   </div>
 </section>
