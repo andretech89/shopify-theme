@@ -8,220 +8,298 @@
       {{ section.settings.heading | default: 'Shop by Category' }}
     </h2>
     
-    <!-- FIXED 3x2 Grid Layout - 3 columns, 2 rows -->
+    <!-- FORCED 3x2 Grid Layout - Always shows 6 positions -->
     <div class="max-w-6xl mx-auto">
       
-      <!-- ROW 1 - Three Collections -->
+      <!-- ROW 1 - Top 3 Collections (Always Visible) -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
         
         <!-- Position 1: Top Left -->
-        {% if section.settings.collection_1 != blank %}
-          {% assign collection_1 = collections[section.settings.collection_1] %}
-          {% if collection_1 %}
-            <a href="{{ collection_1.url }}" class="group block">
-              <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 h-full">
-                {% if collection_1.featured_image %}
-                  <img src="{{ collection_1.featured_image | image_url: width: 400 }}" 
-                       alt="{{ collection_1.title }}" 
-                       class="w-full h-48 object-cover"
-                       width="400" height="192">
-                {% else %}
-                  <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-                    <i class="{{ section.settings.collection_1_icon | default: 'fas fa-shopping-bag' }} text-4xl text-gray-500"></i>
-                  </div>
-                {% endif %}
-                <div class="p-6">
-                  <h3 class="text-xl font-bold text-white mb-2">{{ collection_1.title }}</h3>
-                  <p class="text-gray-400 text-sm mb-3">
-                    {% if section.settings.collection_1_description != blank %}
-                      {{ section.settings.collection_1_description | truncate: 100 }}
-                    {% else %}
-                      {{ collection_1.description | truncate: 100 }}
-                    {% endif %}
-                  </p>
-                  <div class="mt-4">
-                    <span class="text-accent font-medium">{{ collection_1.products_count }} products →</span>
+        <div class="collection-card">
+          {% if section.settings.collection_1 != blank %}
+            {% assign collection_1 = collections[section.settings.collection_1] %}
+            {% if collection_1 %}
+              <a href="{{ collection_1.url }}" class="group block h-full">
+                <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 h-full flex flex-col">
+                  {% if collection_1.featured_image %}
+                    <img src="{{ collection_1.featured_image | image_url: width: 400 }}" 
+                         alt="{{ collection_1.title }}" 
+                         class="w-full h-48 object-cover flex-shrink-0"
+                         width="400" height="192">
+                  {% else %}
+                    <div class="w-full h-48 bg-gray-700 flex items-center justify-center flex-shrink-0">
+                      <i class="{{ section.settings.collection_1_icon | default: 'fas fa-shopping-bag' }} text-4xl text-gray-500"></i>
+                    </div>
+                  {% endif %}
+                  <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-white mb-2">{{ collection_1.title }}</h3>
+                    <p class="text-gray-400 text-sm mb-3 flex-grow">
+                      {% if section.settings.collection_1_description != blank %}
+                        {{ section.settings.collection_1_description | truncate: 100 }}
+                      {% else %}
+                        {{ collection_1.description | truncate: 100 }}
+                      {% endif %}
+                    </p>
+                    <div class="mt-auto">
+                      <span class="text-accent font-medium">{{ collection_1.products_count }} products →</span>
+                    </div>
                   </div>
                 </div>
+              </a>
+            {% endif %}
+          {% else %}
+            <!-- Fallback for empty collection -->
+            <div class="bg-gray-800 rounded-lg overflow-hidden h-full flex flex-col">
+              <div class="w-full h-48 bg-gray-700 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-shopping-bag text-4xl text-gray-500"></i>
               </div>
-            </a>
+              <div class="p-6 flex-grow flex flex-col">
+                <h3 class="text-xl font-bold text-white mb-2">Select Collection</h3>
+                <p class="text-gray-400 text-sm mb-3 flex-grow">Choose a collection in the customizer</p>
+              </div>
+            </div>
           {% endif %}
-        {% endif %}
+        </div>
 
         <!-- Position 2: Top Center -->
-        {% if section.settings.collection_2 != blank %}
-          {% assign collection_2 = collections[section.settings.collection_2] %}
-          {% if collection_2 %}
-            <a href="{{ collection_2.url }}" class="group block">
-              <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 h-full">
-                {% if collection_2.featured_image %}
-                  <img src="{{ collection_2.featured_image | image_url: width: 400 }}" 
-                       alt="{{ collection_2.title }}" 
-                       class="w-full h-48 object-cover"
-                       width="400" height="192">
-                {% else %}
-                  <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-                    <i class="{{ section.settings.collection_2_icon | default: 'fas fa-shopping-bag' }} text-4xl text-gray-500"></i>
-                  </div>
-                {% endif %}
-                <div class="p-6">
-                  <h3 class="text-xl font-bold text-white mb-2">{{ collection_2.title }}</h3>
-                  <p class="text-gray-400 text-sm mb-3">
-                    {% if section.settings.collection_2_description != blank %}
-                      {{ section.settings.collection_2_description | truncate: 100 }}
-                    {% else %}
-                      {{ collection_2.description | truncate: 100 }}
-                    {% endif %}
-                  </p>
-                  <div class="mt-4">
-                    <span class="text-accent font-medium">{{ collection_2.products_count }} products →</span>
+        <div class="collection-card">
+          {% if section.settings.collection_2 != blank %}
+            {% assign collection_2 = collections[section.settings.collection_2] %}
+            {% if collection_2 %}
+              <a href="{{ collection_2.url }}" class="group block h-full">
+                <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 h-full flex flex-col">
+                  {% if collection_2.featured_image %}
+                    <img src="{{ collection_2.featured_image | image_url: width: 400 }}" 
+                         alt="{{ collection_2.title }}" 
+                         class="w-full h-48 object-cover flex-shrink-0"
+                         width="400" height="192">
+                  {% else %}
+                    <div class="w-full h-48 bg-gray-700 flex items-center justify-center flex-shrink-0">
+                      <i class="{{ section.settings.collection_2_icon | default: 'fas fa-shopping-bag' }} text-4xl text-gray-500"></i>
+                    </div>
+                  {% endif %}
+                  <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-white mb-2">{{ collection_2.title }}</h3>
+                    <p class="text-gray-400 text-sm mb-3 flex-grow">
+                      {% if section.settings.collection_2_description != blank %}
+                        {{ section.settings.collection_2_description | truncate: 100 }}
+                      {% else %}
+                        {{ collection_2.description | truncate: 100 }}
+                      {% endif %}
+                    </p>
+                    <div class="mt-auto">
+                      <span class="text-accent font-medium">{{ collection_2.products_count }} products →</span>
+                    </div>
                   </div>
                 </div>
+              </a>
+            {% endif %}
+          {% else %}
+            <!-- Fallback for empty collection -->
+            <div class="bg-gray-800 rounded-lg overflow-hidden h-full flex flex-col">
+              <div class="w-full h-48 bg-gray-700 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-desktop text-4xl text-gray-500"></i>
               </div>
-            </a>
+              <div class="p-6 flex-grow flex flex-col">
+                <h3 class="text-xl font-bold text-white mb-2">Select Collection</h3>
+                <p class="text-gray-400 text-sm mb-3 flex-grow">Choose a collection in the customizer</p>
+              </div>
+            </div>
           {% endif %}
-        {% endif %}
+        </div>
 
         <!-- Position 3: Top Right -->
-        {% if section.settings.collection_3 != blank %}
-          {% assign collection_3 = collections[section.settings.collection_3] %}
-          {% if collection_3 %}
-            <a href="{{ collection_3.url }}" class="group block">
-              <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 h-full">
-                {% if collection_3.featured_image %}
-                  <img src="{{ collection_3.featured_image | image_url: width: 400 }}" 
-                       alt="{{ collection_3.title }}" 
-                       class="w-full h-48 object-cover"
-                       width="400" height="192">
-                {% else %}
-                  <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-                    <i class="{{ section.settings.collection_3_icon | default: 'fas fa-shopping-bag' }} text-4xl text-gray-500"></i>
-                  </div>
-                {% endif %}
-                <div class="p-6">
-                  <h3 class="text-xl font-bold text-white mb-2">{{ collection_3.title }}</h3>
-                  <p class="text-gray-400 text-sm mb-3">
-                    {% if section.settings.collection_3_description != blank %}
-                      {{ section.settings.collection_3_description | truncate: 100 }}
-                    {% else %}
-                      {{ collection_3.description | truncate: 100 }}
-                    {% endif %}
-                  </p>
-                  <div class="mt-4">
-                    <span class="text-accent font-medium">{{ collection_3.products_count }} products →</span>
+        <div class="collection-card">
+          {% if section.settings.collection_3 != blank %}
+            {% assign collection_3 = collections[section.settings.collection_3] %}
+            {% if collection_3 %}
+              <a href="{{ collection_3.url }}" class="group block h-full">
+                <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 h-full flex flex-col">
+                  {% if collection_3.featured_image %}
+                    <img src="{{ collection_3.featured_image | image_url: width: 400 }}" 
+                         alt="{{ collection_3.title }}" 
+                         class="w-full h-48 object-cover flex-shrink-0"
+                         width="400" height="192">
+                  {% else %}
+                    <div class="w-full h-48 bg-gray-700 flex items-center justify-center flex-shrink-0">
+                      <i class="{{ section.settings.collection_3_icon | default: 'fas fa-shopping-bag' }} text-4xl text-gray-500"></i>
+                    </div>
+                  {% endif %}
+                  <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-white mb-2">{{ collection_3.title }}</h3>
+                    <p class="text-gray-400 text-sm mb-3 flex-grow">
+                      {% if section.settings.collection_3_description != blank %}
+                        {{ section.settings.collection_3_description | truncate: 100 }}
+                      {% else %}
+                        {{ collection_3.description | truncate: 100 }}
+                      {% endif %}
+                    </p>
+                    <div class="mt-auto">
+                      <span class="text-accent font-medium">{{ collection_3.products_count }} products →</span>
+                    </div>
                   </div>
                 </div>
+              </a>
+            {% endif %}
+          {% else %}
+            <!-- Fallback for empty collection -->
+            <div class="bg-gray-800 rounded-lg overflow-hidden h-full flex flex-col">
+              <div class="w-full h-48 bg-gray-700 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-home text-4xl text-gray-500"></i>
               </div>
-            </a>
+              <div class="p-6 flex-grow flex flex-col">
+                <h3 class="text-xl font-bold text-white mb-2">Select Collection</h3>
+                <p class="text-gray-400 text-sm mb-3 flex-grow">Choose a collection in the customizer</p>
+              </div>
+            </div>
           {% endif %}
-        {% endif %}
+        </div>
         
       </div>
 
-      <!-- ROW 2 - Three More Collections -->
+      <!-- ROW 2 - Bottom 3 Collections (Always Visible) -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         
         <!-- Position 4: Bottom Left -->
-        {% if section.settings.collection_4 != blank %}
-          {% assign collection_4 = collections[section.settings.collection_4] %}
-          {% if collection_4 %}
-            <a href="{{ collection_4.url }}" class="group block">
-              <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 h-full">
-                {% if collection_4.featured_image %}
-                  <img src="{{ collection_4.featured_image | image_url: width: 400 }}" 
-                       alt="{{ collection_4.title }}" 
-                       class="w-full h-48 object-cover"
-                       width="400" height="192">
-                {% else %}
-                  <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-                    <i class="{{ section.settings.collection_4_icon | default: 'fas fa-shopping-bag' }} text-4xl text-gray-500"></i>
-                  </div>
-                {% endif %}
-                <div class="p-6">
-                  <h3 class="text-xl font-bold text-white mb-2">{{ collection_4.title }}</h3>
-                  <p class="text-gray-400 text-sm mb-3">
-                    {% if section.settings.collection_4_description != blank %}
-                      {{ section.settings.collection_4_description | truncate: 100 }}
-                    {% else %}
-                      {{ collection_4.description | truncate: 100 }}
-                    {% endif %}
-                  </p>
-                  <div class="mt-4">
-                    <span class="text-accent font-medium">{{ collection_4.products_count }} products →</span>
+        <div class="collection-card">
+          {% if section.settings.collection_4 != blank %}
+            {% assign collection_4 = collections[section.settings.collection_4] %}
+            {% if collection_4 %}
+              <a href="{{ collection_4.url }}" class="group block h-full">
+                <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 h-full flex flex-col">
+                  {% if collection_4.featured_image %}
+                    <img src="{{ collection_4.featured_image | image_url: width: 400 }}" 
+                         alt="{{ collection_4.title }}" 
+                         class="w-full h-48 object-cover flex-shrink-0"
+                         width="400" height="192">
+                  {% else %}
+                    <div class="w-full h-48 bg-gray-700 flex items-center justify-center flex-shrink-0">
+                      <i class="{{ section.settings.collection_4_icon | default: 'fas fa-shopping-bag' }} text-4xl text-gray-500"></i>
+                    </div>
+                  {% endif %}
+                  <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-white mb-2">{{ collection_4.title }}</h3>
+                    <p class="text-gray-400 text-sm mb-3 flex-grow">
+                      {% if section.settings.collection_4_description != blank %}
+                        {{ section.settings.collection_4_description | truncate: 100 }}
+                      {% else %}
+                        {{ collection_4.description | truncate: 100 }}
+                      {% endif %}
+                    </p>
+                    <div class="mt-auto">
+                      <span class="text-accent font-medium">{{ collection_4.products_count }} products →</span>
+                    </div>
                   </div>
                 </div>
+              </a>
+            {% endif %}
+          {% else %}
+            <!-- Fallback for empty collection -->
+            <div class="bg-gray-800 rounded-lg overflow-hidden h-full flex flex-col">
+              <div class="w-full h-48 bg-gray-700 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-paw text-4xl text-gray-500"></i>
               </div>
-            </a>
+              <div class="p-6 flex-grow flex flex-col">
+                <h3 class="text-xl font-bold text-white mb-2">Select Collection</h3>
+                <p class="text-gray-400 text-sm mb-3 flex-grow">Choose a collection in the customizer</p>
+              </div>
+            </div>
           {% endif %}
-        {% endif %}
+        </div>
 
         <!-- Position 5: Bottom Center -->
-        {% if section.settings.collection_5 != blank %}
-          {% assign collection_5 = collections[section.settings.collection_5] %}
-          {% if collection_5 %}
-            <a href="{{ collection_5.url }}" class="group block">
-              <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 h-full">
-                {% if collection_5.featured_image %}
-                  <img src="{{ collection_5.featured_image | image_url: width: 400 }}" 
-                       alt="{{ collection_5.title }}" 
-                       class="w-full h-48 object-cover"
-                       width="400" height="192">
-                {% else %}
-                  <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-                    <i class="{{ section.settings.collection_5_icon | default: 'fas fa-shopping-bag' }} text-4xl text-gray-500"></i>
-                  </div>
-                {% endif %}
-                <div class="p-6">
-                  <h3 class="text-xl font-bold text-white mb-2">{{ collection_5.title }}</h3>
-                  <p class="text-gray-400 text-sm mb-3">
-                    {% if section.settings.collection_5_description != blank %}
-                      {{ section.settings.collection_5_description | truncate: 100 }}
-                    {% else %}
-                      {{ collection_5.description | truncate: 100 }}
-                    {% endif %}
-                  </p>
-                  <div class="mt-4">
-                    <span class="text-accent font-medium">{{ collection_5.products_count }} products →</span>
+        <div class="collection-card">
+          {% if section.settings.collection_5 != blank %}
+            {% assign collection_5 = collections[section.settings.collection_5] %}
+            {% if collection_5 %}
+              <a href="{{ collection_5.url }}" class="group block h-full">
+                <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 h-full flex flex-col">
+                  {% if collection_5.featured_image %}
+                    <img src="{{ collection_5.featured_image | image_url: width: 400 }}" 
+                         alt="{{ collection_5.title }}" 
+                         class="w-full h-48 object-cover flex-shrink-0"
+                         width="400" height="192">
+                  {% else %}
+                    <div class="w-full h-48 bg-gray-700 flex items-center justify-center flex-shrink-0">
+                      <i class="{{ section.settings.collection_5_icon | default: 'fas fa-shopping-bag' }} text-4xl text-gray-500"></i>
+                    </div>
+                  {% endif %}
+                  <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-white mb-2">{{ collection_5.title }}</h3>
+                    <p class="text-gray-400 text-sm mb-3 flex-grow">
+                      {% if section.settings.collection_5_description != blank %}
+                        {{ section.settings.collection_5_description | truncate: 100 }}
+                      {% else %}
+                        {{ collection_5.description | truncate: 100 }}
+                      {% endif %}
+                    </p>
+                    <div class="mt-auto">
+                      <span class="text-accent font-medium">{{ collection_5.products_count }} products →</span>
+                    </div>
                   </div>
                 </div>
+              </a>
+            {% endif %}
+          {% else %}
+            <!-- Fallback for empty collection -->
+            <div class="bg-gray-800 rounded-lg overflow-hidden h-full flex flex-col">
+              <div class="w-full h-48 bg-gray-700 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-football-ball text-4xl text-gray-500"></i>
               </div>
-            </a>
+              <div class="p-6 flex-grow flex flex-col">
+                <h3 class="text-xl font-bold text-white mb-2">Select Collection</h3>
+                <p class="text-gray-400 text-sm mb-3 flex-grow">Choose a collection in the customizer</p>
+              </div>
+            </div>
           {% endif %}
-        {% endif %}
+        </div>
 
         <!-- Position 6: Bottom Right -->
-        {% if section.settings.collection_6 != blank %}
-          {% assign collection_6 = collections[section.settings.collection_6] %}
-          {% if collection_6 %}
-            <a href="{{ collection_6.url }}" class="group block">
-              <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 h-full">
-                {% if collection_6.featured_image %}
-                  <img src="{{ collection_6.featured_image | image_url: width: 400 }}" 
-                       alt="{{ collection_6.title }}" 
-                       class="w-full h-48 object-cover"
-                       width="400" height="192">
-                {% else %}
-                  <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
-                    <i class="{{ section.settings.collection_6_icon | default: 'fas fa-shopping-bag' }} text-4xl text-gray-500"></i>
-                  </div>
-                {% endif %}
-                <div class="p-6">
-                  <h3 class="text-xl font-bold text-white mb-2">{{ collection_6.title }}</h3>
-                  <p class="text-gray-400 text-sm mb-3">
-                    {% if section.settings.collection_6_description != blank %}
-                      {{ section.settings.collection_6_description | truncate: 100 }}
-                    {% else %}
-                      {{ collection_6.description | truncate: 100 }}
-                    {% endif %}
-                  </p>
-                  <div class="mt-4">
-                    <span class="text-accent font-medium">{{ collection_6.products_count }} products →</span>
+        <div class="collection-card">
+          {% if section.settings.collection_6 != blank %}
+            {% assign collection_6 = collections[section.settings.collection_6] %}
+            {% if collection_6 %}
+              <a href="{{ collection_6.url }}" class="group block h-full">
+                <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105 h-full flex flex-col">
+                  {% if collection_6.featured_image %}
+                    <img src="{{ collection_6.featured_image | image_url: width: 400 }}" 
+                         alt="{{ collection_6.title }}" 
+                         class="w-full h-48 object-cover flex-shrink-0"
+                         width="400" height="192">
+                  {% else %}
+                    <div class="w-full h-48 bg-gray-700 flex items-center justify-center flex-shrink-0">
+                      <i class="{{ section.settings.collection_6_icon | default: 'fas fa-shopping-bag' }} text-4xl text-gray-500"></i>
+                    </div>
+                  {% endif %}
+                  <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-white mb-2">{{ collection_6.title }}</h3>
+                    <p class="text-gray-400 text-sm mb-3 flex-grow">
+                      {% if section.settings.collection_6_description != blank %}
+                        {{ section.settings.collection_6_description | truncate: 100 }}
+                      {% else %}
+                        {{ collection_6.description | truncate: 100 }}
+                      {% endif %}
+                    </p>
+                    <div class="mt-auto">
+                      <span class="text-accent font-medium">{{ collection_6.products_count }} products →</span>
+                    </div>
                   </div>
                 </div>
+              </a>
+            {% endif %}
+          {% else %}
+            <!-- Fallback for empty collection -->
+            <div class="bg-gray-800 rounded-lg overflow-hidden h-full flex flex-col">
+              <div class="w-full h-48 bg-gray-700 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-gamepad text-4xl text-gray-500"></i>
               </div>
-            </a>
+              <div class="p-6 flex-grow flex flex-col">
+                <h3 class="text-xl font-bold text-white mb-2">Select Collection</h3>
+                <p class="text-gray-400 text-sm mb-3 flex-grow">Choose a collection in the customizer</p>
+              </div>
+            </div>
           {% endif %}
-        {% endif %}
+        </div>
         
       </div>
       
@@ -230,7 +308,15 @@
 </section>
 {% endif %}
 
-<script src="{{ 'homepage.js' | asset_url }}" defer></script>
+<style>
+.collection-card {
+  min-height: 350px;
+}
+
+.collection-card .bg-gray-800 {
+  height: 100%;
+}
+</style>
 
 {% schema %}
 {
@@ -260,59 +346,50 @@
     {
       "type": "collection",
       "id": "collection_1",
-      "label": "🚗 Position 1: Top Left",
-      "info": "Select collection for top-left position"
+      "label": "🚗 Position 1: Top Left"
     },
     {
       "type": "text",
       "id": "collection_1_icon",
       "label": "Collection 1 Icon",
-      "default": "fas fa-car",
-      "info": "FontAwesome icon class (e.g., fas fa-car)"
+      "default": "fas fa-car"
     },
     {
       "type": "textarea",
       "id": "collection_1_description",
-      "label": "Collection 1 Custom Description",
-      "info": "Optional: Override the collection's default description"
+      "label": "Collection 1 Custom Description"
     },
     {
       "type": "collection",
       "id": "collection_2",
-      "label": "💻 Position 2: Top Center",
-      "info": "Select collection for top-center position"
+      "label": "💻 Position 2: Top Center"
     },
     {
       "type": "text",
       "id": "collection_2_icon",
       "label": "Collection 2 Icon",
-      "default": "fas fa-desktop",
-      "info": "FontAwesome icon class (e.g., fas fa-desktop)"
+      "default": "fas fa-desktop"
     },
     {
       "type": "textarea",
       "id": "collection_2_description",
-      "label": "Collection 2 Custom Description",
-      "info": "Optional: Override the collection's default description"
+      "label": "Collection 2 Custom Description"
     },
     {
       "type": "collection",
       "id": "collection_3",
-      "label": "🏠 Position 3: Top Right",
-      "info": "Select collection for top-right position"
+      "label": "🏠 Position 3: Top Right"
     },
     {
       "type": "text",
       "id": "collection_3_icon",
       "label": "Collection 3 Icon",
-      "default": "fas fa-home",
-      "info": "FontAwesome icon class (e.g., fas fa-home)"
+      "default": "fas fa-home"
     },
     {
       "type": "textarea",
       "id": "collection_3_description",
-      "label": "Collection 3 Custom Description",
-      "info": "Optional: Override the collection's default description"
+      "label": "Collection 3 Custom Description"
     },
     {
       "type": "header",
@@ -321,80 +398,55 @@
     {
       "type": "collection",
       "id": "collection_4",
-      "label": "🐾 Position 4: Bottom Left",
-      "info": "Select collection for bottom-left position"
+      "label": "🐾 Position 4: Bottom Left"
     },
     {
       "type": "text",
       "id": "collection_4_icon",
       "label": "Collection 4 Icon",
-      "default": "fas fa-paw",
-      "info": "FontAwesome icon class (e.g., fas fa-paw)"
+      "default": "fas fa-paw"
     },
     {
       "type": "textarea",
       "id": "collection_4_description",
-      "label": "Collection 4 Custom Description",
-      "info": "Optional: Override the collection's default description"
+      "label": "Collection 4 Custom Description"
     },
     {
       "type": "collection",
       "id": "collection_5",
-      "label": "⚽ Position 5: Bottom Center",
-      "info": "Select collection for bottom-center position"
+      "label": "⚽ Position 5: Bottom Center"
     },
     {
       "type": "text",
       "id": "collection_5_icon",
       "label": "Collection 5 Icon",
-      "default": "fas fa-football-ball",
-      "info": "FontAwesome icon class (e.g., fas fa-football-ball)"
+      "default": "fas fa-football-ball"
     },
     {
       "type": "textarea",
       "id": "collection_5_description",
-      "label": "Collection 5 Custom Description",
-      "info": "Optional: Override the collection's default description"
+      "label": "Collection 5 Custom Description"
     },
     {
       "type": "collection",
       "id": "collection_6",
-      "label": "🎮 Position 6: Bottom Right",
-      "info": "Select collection for bottom-right position"
+      "label": "🎮 Position 6: Bottom Right"
     },
     {
       "type": "text",
       "id": "collection_6_icon",
       "label": "Collection 6 Icon",
-      "default": "fas fa-gamepad",
-      "info": "FontAwesome icon class (e.g., fas fa-gamepad)"
+      "default": "fas fa-gamepad"
     },
     {
       "type": "textarea",
       "id": "collection_6_description",
-      "label": "Collection 6 Custom Description",
-      "info": "Optional: Override the collection's default description"
+      "label": "Collection 6 Custom Description"
     }
   ],
   "presets": [
     {
-      "name": "Collections Grid (3x2)",
-      "settings": {
-        "show_collections": true,
-        "heading": "Shop by Category",
-        "collection_1": "car-accessories",
-        "collection_1_icon": "fas fa-car",
-        "collection_2": "desktop-accessories", 
-        "collection_2_icon": "fas fa-desktop",
-        "collection_3": "home-garden",
-        "collection_3_icon": "fas fa-home",
-        "collection_4": "pet-supplies",
-        "collection_4_icon": "fas fa-paw",
-        "collection_5": "sporting-goods",
-        "collection_5_icon": "fas fa-football-ball",
-        "collection_6": "video-game-accessories",
-        "collection_6_icon": "fas fa-gamepad"
-      }
+      "name": "Collections Grid (3x2)"
     }
   ]
 }
