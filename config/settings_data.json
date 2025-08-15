@@ -42,7 +42,7 @@
           "heading": "Featured Products",
           "collection": "",
           "products_count": 6,
-          "show_trending_video": false,
+          "show_trending_video": true,
           "trending_badge": "Now Trending",
           "trending_title": "Discover the Unseen",
           "trending_description": "Experience the future with our curated collection of innovative gadgets.",
