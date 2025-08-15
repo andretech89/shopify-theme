@@ -634,12 +634,6 @@
       },
       {
         "type": "checkbox",
-        "id": "show_vendor_on_cards",
-        "label": "Show vendor on product cards",
-        "default": false
-      },
-      {
-        "type": "checkbox",
         "id": "show_product_type_on_cards",
         "label": "Show product type on cards",
         "default": false
@@ -856,12 +850,6 @@
       {
         "type": "header",
         "content": "Product Settings"
-      },
-      {
-        "type": "checkbox",
-        "id": "show_vendor",
-        "label": "Show product vendor",
-        "default": false
       },
       {
         "type": "checkbox",
