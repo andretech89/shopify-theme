@@ -38,52 +38,6 @@
       },
       "featured-products": {
         "type": "featured-products",
-        "blocks": {
-          "product_XDazUb": {
-            "type": "product",
-            "settings": {
-              "product": "gun-style-vertical-gaming-mouse"
-            }
-          },
-          "product_WkMwhy": {
-            "type": "product",
-            "settings": {
-              "product": "language-translator-pen"
-            }
-          },
-          "product_bYcba3": {
-            "type": "product",
-            "settings": {
-              "product": "bluetooth-tesla-coil"
-            }
-          },
-          "product_rqQKxE": {
-            "type": "product",
-            "settings": {
-              "product": "salange-mini-projector-yg300"
-            }
-          },
-          "product_FFDkkU": {
-            "type": "product",
-            "settings": {
-              "product": "stuffed-waffle-maker"
-            }
-          },
-          "product_pqfhRh": {
-            "type": "product",
-            "settings": {
-              "product": "smartphone-infrared-transmitter-adapter-1"
-            }
-          }
-        },
-        "block_order": [
-          "product_XDazUb",
-          "product_WkMwhy",
-          "product_bYcba3",
-          "product_rqQKxE",
-          "product_FFDkkU",
-          "product_pqfhRh"
-        ],
         "settings": {
           "heading": "Featured Products",
           "collection": "",
