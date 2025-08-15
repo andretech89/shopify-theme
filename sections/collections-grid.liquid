@@ -1,20 +1,50 @@
+<!-- sections/collections-grid.liquid -->
+
 <!-- Collections Section -->
-{% if section.settings.show_collections and collections.size > 1 %}
+{% if section.settings.show_collections %}
 <section class="py-16 bg-gray-900">
   <div class="container mx-auto">
     <h2 class="text-3xl font-bold text-center mb-12 text-white">
       {{ section.settings.heading | default: 'Shop by Category' }}
     </h2>
     
-    <!-- Get first 6 collections (excluding 'all') -->
-    {% assign filtered_collections = collections | where: 'handle', '!= all' %}
-    {% assign collections_to_show = filtered_collections | slice: 0, 6 %}
+    <!-- Get collections to display -->
+    {% assign collections_to_show = '' %}
+    {% if section.settings.collections_to_show != blank %}
+      {% assign selected_handles = section.settings.collections_to_show | split: ',' %}
+      {% assign collections_to_show = '' %}
+      {% for handle in selected_handles %}
+        {% assign trimmed_handle = handle | strip %}
+        {% assign collection = collections[trimmed_handle] %}
+        {% if collection %}
+          {% unless collections_to_show == '' %}
+            {% assign collections_to_show = collections_to_show | append: ',' %}
+          {% endunless %}
+          {% assign collections_to_show = collections_to_show | append: collection.handle %}
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <!-- Fallback: show first 6 collections (excluding 'all') -->
+      {% assign collection_count = 0 %}
+      {% assign collections_to_show = '' %}
+      {% for collection in collections %}
+        {% unless collection.handle == 'all' or collection_count >= 6 %}
+          {% unless collections_to_show == '' %}
+            {% assign collections_to_show = collections_to_show | append: ',' %}
+          {% endunless %}
+          {% assign collections_to_show = collections_to_show | append: collection.handle %}
+          {% assign collection_count = collection_count | plus: 1 %}
+        {% endunless %}
+      {% endfor %}
+    {% endif %}
+    
+    {% assign collection_handles = collections_to_show | split: ',' %}
     
     <!-- First Row: First 3 collections -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
       {% for i in (0..2) %}
-        {% assign collection = collections_to_show[i] %}
-        {% if collection %}
+        {% if collection_handles[i] %}
+          {% assign collection = collections[collection_handles[i]] %}
           <a href="{{ collection.url }}" class="group">
             <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
               {% if collection.featured_image %}
@@ -54,8 +84,8 @@
     <!-- Second Row: Next 3 collections -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       {% for i in (3..5) %}
-        {% assign collection = collections_to_show[i] %}
-        {% if collection %}
+        {% if collection_handles[i] %}
+          {% assign collection = collections[collection_handles[i]] %}
           <a href="{{ collection.url }}" class="group">
             <div class="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all duration-300 hover:scale-105">
               {% if collection.featured_image %}
@@ -113,6 +143,22 @@
       "id": "heading",
       "label": "Section Heading",
       "default": "Shop by Category"
+    },
+    {
+      "type": "text",
+      "id": "collections_to_show",
+      "label": "Collections to Display",
+      "info": "Enter collection handles separated by commas (e.g., car-accessories,pet-supplies,desktop-accessories). Leave blank to show first 6 collections automatically.",
+      "placeholder": "car-accessories,pet-supplies,desktop-accessories"
+    },
+    {
+      "type": "range",
+      "id": "collections_count",
+      "label": "Number of collections to show",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 6
     }
   ],
   "presets": [
