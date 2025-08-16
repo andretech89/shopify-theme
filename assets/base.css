@@ -130,28 +130,59 @@ body {
   text-decoration: underline;
 }
 
-/* Typography */
+/* Typography – Modern Style */
+
+:root {
+  --font-heading-family: 'Space Grotesk', sans-serif;
+  --font-heading-weight: 700;
+  --font-body-family: 'Space Grotesk', sans-serif;
+  --font-body-scale: 1.0;
+
+  --primary-color: #1a1a1a;
+  --accent-color: #00e676;
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+}
+
+body {
+  font-family: var(--font-body-family, 'Space Grotesk', sans-serif);
+  font-size: 16px;
+  color: var(--text-color);
+  line-height: 1.6;
+  background-color: var(--bg-color);
+  margin: 0;
+  padding: 0;
+}
+
+/* Headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading-family, 'Inter', sans-serif);
+  font-family: var(--font-heading-family, 'Space Grotesk', sans-serif);
   font-weight: var(--font-heading-weight, 700);
   color: var(--text-primary);
   line-height: 1.2;
   margin-top: 0;
+  margin-bottom: 1rem;
 }
 
-.h1 { font-size: 3rem; }
-.h2 { font-size: 2.5rem; }
-.h3 { font-size: 2rem; }
-.h4 { font-size: 1.5rem; }
+.h1, h1 { font-size: 3rem; }
+.h2, h2 { font-size: 2.25rem; }
+.h3, h3 { font-size: 1.75rem; }
+.h4, h4 { font-size: 1.5rem; }
+.h5, h5 { font-size: 1.25rem; }
+.h6, h6 { font-size: 1rem; }
 
 .title--primary {
-  color: var(--text-primary);
+  color: var(--accent-color);
 }
 
 .rte p {
   margin-bottom: 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
 }
-
 /* Forms */
 .form {
   margin: 0;
